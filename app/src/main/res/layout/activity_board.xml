@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"></include>
+
+    <!-- 画板 -->
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/board_drawbody"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/drawer_view"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#FFC5C1C1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+            <!--线  -->
+                <ImageView
+                    android:id="@+id/left_menu_linepath"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/linepathed" />
+
+
+                <ImageView
+                    android:id="@+id/left_menu_line"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--橡皮保存  -->
+                <ImageView
+                    android:id="@+id/left_menu_arrow"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/arrow" />
+
+                <ImageView
+                    android:id="@+id/left_menu_text"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/text" />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--矢量图  -->
+                <ImageView
+                    android:id="@+id/left_menu_square"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/square" />
+
+                <ImageView
+                    android:id="@+id/left_menu_circular"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/circular" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--撤销 重做  清空  -->
+                <ImageView
+                    android:id="@+id/left_menu_undo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/undo" />
+
+                <ImageView
+                    android:id="@+id/left_menu_redo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/redo" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--橡皮保存  -->
+                <ImageView
+                    android:id="@+id/left_menu_eraser"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/eraser" />
+
+                <ImageView
+
+                    android:id="@+id/left_menu_clean"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/clear" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--橡皮保存  -->
+                <ImageView
+                    android:id="@+id/left_menu_last"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/last" />
+
+                <ImageView
+                    android:id="@+id/left_menu_next"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/next" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--橡皮保存  -->
+                <ImageView
+                    android:id="@+id/left_menu_new"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/add" />
+
+                <ImageView
+                    android:id="@+id/left_menu_delect"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/delect" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--橡皮保存  -->
+                <ImageView
+                    android:id="@+id/left_menu_save"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/save" />
+
+                <ImageView
+                    android:id="@+id/left_menu_quite"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/quite" />
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+
+</LinearLayout>

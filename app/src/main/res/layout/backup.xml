@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 上方菜单 -->
+
+    <LinearLayout
+        android:id="@+id/board_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/darkblue"
+        android:orientation="horizontal" >
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+
+            >
+
+            <TextView
+                android:id="@+id/board_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/img_menu"
+                android:layout_marginTop="10dp"
+                />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+
+            <Button
+                android:gravity="center"
+                android:id="@+id/board_color_picker"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/board_color_picker" />
+        </LinearLayout>
+
+        <com.bilue.board.ui.CustomSeekBar
+            android:id="@+id/board_myseek"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            />
+
+    </LinearLayout>
+
+    <!-- 画板 -->
+
+    <FrameLayout
+        android:id="@+id/board_drawbody"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="14" >
+    </FrameLayout>
+
+</LinearLayout>

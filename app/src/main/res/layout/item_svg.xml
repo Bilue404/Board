@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:r="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.bilue.board.ui.SvgView
+            android:id="@+id/svg"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="40dp"
+            r:phase="1.0"
+            r:duration="3000"
+            r:fadeFactor="10.0"
+            r:strokeWidth="2.0"
+            r:strokeColor="#ffffffff">
+
+    </com.bilue.board.ui.SvgView>
+
+</FrameLayout>

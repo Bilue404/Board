@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/activity_main_bg"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    >
+    <include layout="@layout/toolbar_main"></include>
+
+    <TextView
+        android:layout_below="@+id/metaball"
+        android:id="@+id/join_room_showwifilist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:text="扫描中"
+        android:gravity="center_horizontal"
+
+        />
+    <com.bilue.board.ui.MetaballView
+        android:layout_below="@+id/toolbar_main"
+        android:id="@+id/metaball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/join_room_return"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="返回"
+        android:background="@drawable/other_button1"
+        />
+
+    <ListView
+        android:layout_below="@+id/join_room_showwifilist"
+        android:layout_above="@+id/join_room_return"
+        android:id="@+id/join_room_wifilist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="100dp"
+        >
+    </ListView>
+
+
+
+</RelativeLayout>
+
+

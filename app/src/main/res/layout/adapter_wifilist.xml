@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+
+    
+    <TextView 
+        android:id="@+id/adapter_wifilist_missname"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="WIFI"
+        android:textSize="30sp"
+
+        android:gravity="left"
+        />
+    <TextView 
+        android:id="@+id/adapter_wifilist_join"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="加入"
+        android:textSize="30sp"
+        android:gravity="right"
+        />
+
+</RelativeLayout>
