@@ -1,25 +1,12 @@
 package com.bilue.board.activity;
 
-import com.bilue.board.util.Engine;
-import com.bilue.board.util.WifiUtil;
-import com.bilue.board.R;
-
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.drm.ProcessedData;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -28,18 +15,24 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.bilue.board.R;
+import com.bilue.board.util.Engine;
+import com.bilue.board.util.WifiUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CreatRoom extends AppCompatActivity {
-	private EditText missName;
+	@BindView(R.id.et_root_name) EditText etRootName;
 	private EditText pwd;
-	private TextView back;
-	private TextView creat;
-	private TextView titleView;
-	private RadioGroup isneedpwd;
-	private RadioButton needpwd;
-	private RadioButton nopwd;
-	private LinearLayout passwdll;
+	@BindView(R.id.tv_back) TextView tv_back;
+	@BindView(R.id.tv_creat) TextView tv_creat;
+	@BindView(R.id.tv_title) TextView tvTitle;
+	@BindView(R.id.rg_is_need_passwd) RadioGroup rgIsNeedPasswd;
+	@BindView(R.id.rb_need_passwd) RadioButton rbNeedPasswd;
+	@BindView(R.id.rb_no_passwd) RadioButton rbNoPasswd;
+	@BindView(R.id.ll_passwd_edit_root) LinearLayout llPasswdEditRoot;
 	private String name;
 	private String passwd = "123456";
 	private boolean isNeedPwd = false;
@@ -53,6 +46,7 @@ public class CreatRoom extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_creatroom);
 
+		ButterKnife.bind(this);
 
 		path=getIntent().getExtras().getString("path"); //历史数据
 
@@ -68,32 +62,32 @@ public class CreatRoom extends AppCompatActivity {
 	private void findView() {
 		mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
 		setSupportActionBar(mToolbar);
-		missName = (EditText) findViewById(R.id.creat_room_missname);
-		back = (TextView) findViewById(R.id.creat_room_back);
-		creat = (TextView) findViewById(R.id.creat_room_creat);
-		isneedpwd = (RadioGroup) findViewById(R.id.creat_room_isneedpasswd);
-		needpwd = (RadioButton) findViewById(R.id.creat_room_needpasswd);
-		nopwd = (RadioButton) findViewById(R.id.creat_room_nopasswd);
-		passwdll = (LinearLayout) findViewById(R.id.creat_room_passwdedit);
-		titleView = (TextView) findViewById(R.id.main_title);
+//		missName = (EditText) findViewById(R.id.creat_room_missname);
+//		tv_back = (TextView) findViewById(R.id.creat_room_back);
+//		creat = (TextView) findViewById(R.id.creat_room_creat);
+//		isneedpwd = (RadioGroup) findViewById(R.id.creat_room_isneedpasswd);
+//		needpwd = (RadioButton) findViewById(R.id.creat_room_needpasswd);
+//		nopwd = (RadioButton) findViewById(R.id.creat_room_nopasswd);
+//		passwdll = (LinearLayout) findViewById(R.id.creat_room_passwdedit);
+//		titleView = (TextView) findViewById(R.id.main_title);
 		if(!path.equals("")){
-			titleView.setText("创建历史会议");
+			tvTitle.setText("创建历史会议");
 		}
 	}
 
 	private void listener() {
-		isneedpwd.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		rgIsNeedPasswd.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				if (checkedId == R.id.creat_room_needpasswd) {
+				if (checkedId == R.id.rb_need_passwd) {
 					pwd = new EditText(CreatRoom.this);
-					pwd.setWidth(passwdll.getWidth());
+					pwd.setWidth(llPasswdEditRoot.getWidth());
 					pwd.setHint("请输入密码");
-					passwdll.addView(pwd);
+					llPasswdEditRoot.addView(pwd);
 					isNeedPwd = true;
 				} else {
 					if (pwd != null) {
-						passwdll.removeAllViews();
+						llPasswdEditRoot.removeAllViews();
 						pwd = null;
 					}
 					isNeedPwd = false;
@@ -101,46 +95,79 @@ public class CreatRoom extends AppCompatActivity {
 			}
 		});
 
-		creat.setOnClickListener(new OnClickListener() {
+//		creat.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				name = etRootName.getText().toString().trim();
+//				if (!name.equals("")) {
+//
+//					if (isNeedPwd) {
+//						passwd = pwd.getText().toString().trim();
+//						if (!passwd.equals("")) {
+//							// CreatAp(passwd);
+//							Engine.missName = name.replace("_missing_roomL","");
+//							creatwifi(name + "_missing_roomL", passwd, true);
+//
+//						} else {
+//							// sendErrorUi("请设置房间密码 或选择不加密");
+//						}
+//					} else {
+//						passwd = Engine.initPasswd;
+//						Engine.missName = name.replace("_missing_room","");
+//						creatwifi(name + "_missing_room", passwd, true);
+//						// CreatAp(passwd);
+//					}
+//				} else {
+//
+//					Toast.makeText(CreatRoom.this, "会议名字为空", Toast.LENGTH_SHORT)
+//							.show();
+//				}
+//			}
+//		});
 
-			@Override
-			public void onClick(View v) {
-				name = missName.getText().toString().trim();
-				if (!name.equals("")) {
-					
-					if (isNeedPwd) {
-						passwd = pwd.getText().toString().trim();
-						if (!passwd.equals("")) {
-							// CreatAp(passwd);
-							Engine.missName = name.replace("_missing_roomL","");
-							creatwifi(name + "_missing_roomL", passwd, true);
+//		back.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				// wifiUtil.creatAp("Thx God", "123456",false);
+//
+//				finish();
+//			}
+//		});
+	}
 
-						} else {
-							// sendErrorUi("请设置房间密码 或选择不加密");
-						}
-					} else {
-						passwd = Engine.initPasswd;
-						Engine.missName = name.replace("_missing_room","");
-						creatwifi(name + "_missing_room", passwd, true);
-						// CreatAp(passwd);
-					}
+	@OnClick(R.id.tv_back)
+	public void back(){
+		finish();
+	}
+
+	@OnClick(R.id.tv_creat)
+	public void creat(){
+		name = etRootName.getText().toString().trim();
+		if (!name.equals("")) {
+
+			if (isNeedPwd) {
+				passwd = pwd.getText().toString().trim();
+				if (!passwd.equals("")) {
+					// CreatAp(passwd);
+					Engine.missName = name.replace("_missing_roomL","");
+					creatwifi(name + "_missing_roomL", passwd, true);
+
 				} else {
-
-					Toast.makeText(CreatRoom.this, "会议名字为空", Toast.LENGTH_SHORT)
-							.show();
+					// sendErrorUi("请设置房间密码 或选择不加密");
 				}
+			} else {
+				passwd = Engine.initPasswd;
+				Engine.missName = name.replace("_missing_room","");
+				creatwifi(name + "_missing_room", passwd, true);
+				// CreatAp(passwd);
 			}
-		});
+		} else {
 
-		back.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				// wifiUtil.creatAp("Thx God", "123456",false);
-
-				finish();
-			}
-		});
+			Toast.makeText(CreatRoom.this, "会议名字为空", Toast.LENGTH_SHORT)
+					.show();
+		}
 	}
 
 	private boolean checkState() {

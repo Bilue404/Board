@@ -19,7 +19,7 @@
         android:orientation="vertical"
         >
         <LinearLayout
-            android:id="@+id/main_logo_root"
+            android:id="@+id/ll_logo_root"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -33,7 +33,7 @@
 
 
                 <Button
-                    android:id="@+id/main_creatroom"
+                    android:id="@+id/btn_creat_room"
 
                     android:layout_marginTop="40dp"
                     android:layout_width="300dp"
@@ -48,12 +48,12 @@
 
 
             <Button
-                android:id="@+id/main_creathistory"
+                android:id="@+id/btn_creat_history"
                 android:text="查看历史"
                 android:layout_width="145dp"
                 android:layout_height="60dp"
-                android:layout_alignLeft="@+id/main_creatroom"
-                android:layout_below="@+id/main_creatroom"
+                android:layout_alignLeft="@+id/btn_creat_room"
+                android:layout_below="@+id/btn_creat_room"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/other_button"
                 />
@@ -64,36 +64,36 @@
 
 
             <Button
-                android:id="@+id/main_joinroom"
+                android:id="@+id/btn_join_room"
                 android:layout_width="145dp"
                 android:layout_height="60dp"
                 android:text="加入会议"
-                android:layout_alignRight="@+id/main_creatroom"
-                android:layout_below="@+id/main_creatroom"
+                android:layout_alignRight="@+id/btn_creat_room"
+                android:layout_below="@+id/btn_creat_room"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/other_button"
                 />
 
 
             <Button
-                android:id="@+id/mymain_historyroom"
+                android:id="@+id/btn_history_room"
                 android:layout_width="145dp"
                 android:layout_height="60dp"
                 android:text="新建历史会议"
-                android:layout_alignLeft="@+id/main_creatroom"
-                android:layout_below="@+id/main_joinroom"
+                android:layout_alignLeft="@+id/btn_creat_room"
+                android:layout_below="@+id/btn_join_room"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/other_button"
                 />
 
 
             <Button
-                android:id="@+id/main_quite"
+                android:id="@+id/btn_quite"
                 android:layout_width="145dp"
                 android:layout_height="60dp"
                 android:text="退出"
-                android:layout_alignRight="@+id/main_creatroom"
-                android:layout_below="@+id/main_joinroom"
+                android:layout_alignRight="@+id/btn_creat_room"
+                android:layout_below="@+id/btn_join_room"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/other_button"
                 />

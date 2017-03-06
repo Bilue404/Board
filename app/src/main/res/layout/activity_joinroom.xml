@@ -11,7 +11,7 @@
 
     <TextView
         android:layout_below="@+id/metaball"
-        android:id="@+id/join_room_showwifilist"
+        android:id="@+id/tv_scaning"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true" />
     <Button
         android:layout_alignParentBottom="true"
-        android:id="@+id/join_room_return"
+        android:id="@+id/btn_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -36,9 +36,9 @@
         />
 
     <ListView
-        android:layout_below="@+id/join_room_showwifilist"
-        android:layout_above="@+id/join_room_return"
-        android:id="@+id/join_room_wifilist"
+        android:layout_below="@+id/tv_scaning"
+        android:layout_above="@+id/btn_back"
+        android:id="@+id/lv_wifilist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="100dp"

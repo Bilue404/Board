@@ -1,7 +1,5 @@
 package com.bilue.board.activity;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -12,28 +10,30 @@ import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bilue.board.R;
 import com.bilue.board.adapter.WifiListAdapter;
 import com.bilue.board.util.Engine;
 import com.bilue.board.util.WifiUtil;
-import com.bilue.board.R;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class JoinRoom extends Activity {
 
 	private static final int WIFI_UPDATED = 2;
-	private TextView showWifiList;
-	private Button back;
-	private ListView wifiListView;
+//	private TextView showWifiList;
+	@BindView(R.id.btn_back) Button back;
+	@BindView(R.id.lv_wifilist) ListView wifiListView;
 	private List<ScanResult> wifiList;
 	private WifiUtil wa;
 	private MyHandler handler;
@@ -48,7 +48,7 @@ public class JoinRoom extends Activity {
 		setContentView(R.layout.activity_joinroom);
 		//透明状态栏
 		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		findView();
+		ButterKnife.bind(this);
 		wa = new WifiUtil(this);
 		handler = new MyHandler();
 		searchWifiThread = new SearchWifiThread();
@@ -109,12 +109,12 @@ public class JoinRoom extends Activity {
 		wifiList = null;
 	}
 
-	private void findView() {
-		showWifiList = (TextView) findViewById(R.id.join_room_showwifilist);
-		back = (Button) findViewById(R.id.join_room_return);
-		wifiListView = (ListView) findViewById(R.id.join_room_wifilist);
-
-	}
+//	private void findView() {
+////		showWifiList = (TextView) findViewById(R.id.join_room_showwifilist);
+////		back = (Button) findViewById(R.id.join_room_return);
+////		wifiListView = (ListView) findViewById(R.id.join_room_wifilist);
+//
+//	}
 
 	private void listener() {
 		wifiListView.setOnItemClickListener(new OnItemClickListener() {
