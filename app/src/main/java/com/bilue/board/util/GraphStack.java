@@ -44,7 +44,6 @@ public class GraphStack {
     public Bitmap next(int position){
         if(position<bitmaps.size()-1){
             return bitmaps.get(position);
-
         }
         else{
             return bitmaps.get(bitmaps.size()-1);

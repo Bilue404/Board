@@ -10,12 +10,12 @@
 
     <!-- 画板 -->
     <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/board_drawbody"
+            android:id="@+id/fl_draw_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
 
@@ -34,14 +34,14 @@
                 >
             <!--线  -->
                 <ImageView
-                    android:id="@+id/left_menu_linepath"
+                    android:id="@+id/iv_menu_linepath"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/linepathed" />
 
 
                 <ImageView
-                    android:id="@+id/left_menu_line"
+                    android:id="@+id/iv_menu_line"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/line" />
@@ -52,13 +52,13 @@
                 android:layout_height="wrap_content">
                 <!--橡皮保存  -->
                 <ImageView
-                    android:id="@+id/left_menu_arrow"
+                    android:id="@+id/iv_menu_arrow"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/arrow" />
 
                 <ImageView
-                    android:id="@+id/left_menu_text"
+                    android:id="@+id/iv_menu_text"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/text" />
@@ -72,13 +72,13 @@
                 android:layout_height="wrap_content">
                 <!--矢量图  -->
                 <ImageView
-                    android:id="@+id/left_menu_square"
+                    android:id="@+id/iv_menu_square"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/square" />
 
                 <ImageView
-                    android:id="@+id/left_menu_circular"
+                    android:id="@+id/iv_menu_circular"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/circular" />
@@ -89,13 +89,13 @@
                 android:layout_height="wrap_content">
                 <!--撤销 重做  清空  -->
                 <ImageView
-                    android:id="@+id/left_menu_undo"
+                    android:id="@+id/iv_menu_undo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/undo" />
 
                 <ImageView
-                    android:id="@+id/left_menu_redo"
+                    android:id="@+id/iv_menu_redo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/redo" />
@@ -108,14 +108,14 @@
                 android:layout_height="wrap_content">
                 <!--橡皮保存  -->
                 <ImageView
-                    android:id="@+id/left_menu_eraser"
+                    android:id="@+id/iv_menu_eraser"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/eraser" />
 
                 <ImageView
 
-                    android:id="@+id/left_menu_clean"
+                    android:id="@+id/iv_menu_clean"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/clear" />
@@ -126,13 +126,13 @@
                 android:layout_height="wrap_content">
                 <!--橡皮保存  -->
                 <ImageView
-                    android:id="@+id/left_menu_last"
+                    android:id="@+id/iv_menu_last"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/last" />
 
                 <ImageView
-                    android:id="@+id/left_menu_next"
+                    android:id="@+id/iv_menu_next"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/next" />
@@ -144,13 +144,13 @@
                 android:layout_height="wrap_content">
                 <!--橡皮保存  -->
                 <ImageView
-                    android:id="@+id/left_menu_new"
+                    android:id="@+id/iv_menu_new"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/add" />
 
                 <ImageView
-                    android:id="@+id/left_menu_delect"
+                    android:id="@+id/iv_menu_delete"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/delect" />
@@ -161,13 +161,13 @@
                 android:layout_height="wrap_content">
                 <!--橡皮保存  -->
                 <ImageView
-                    android:id="@+id/left_menu_save"
+                    android:id="@+id/iv_menu_save"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/save" />
 
                 <ImageView
-                    android:id="@+id/left_menu_quite"
+                    android:id="@+id/iv_menu_quite"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/quite" />
