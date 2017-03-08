@@ -3,9 +3,8 @@ package com.bilue.board.graph;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class RectuImpl implements GraphIF {
+public class RectuImpl extends GraphIF {
 	private String TAG = null;
-	private Paint mPaint = new Paint();
 
 	private float startx = 0;
 	private float starty = 0;
@@ -15,6 +14,7 @@ public class RectuImpl implements GraphIF {
 	private int drawPenStyle = 4;
 
 	public RectuImpl(int penSize, int penColor) {
+		super();
 		mPaint.setAntiAlias(true);
 		mPaint.setDither(true);
 		mPaint.setColor(penColor);

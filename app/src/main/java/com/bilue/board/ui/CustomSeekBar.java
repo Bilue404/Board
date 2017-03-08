@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,7 +48,8 @@ public class CustomSeekBar extends SeekBar{
     private int mBitmapWidth;
     private int mThumbWidth;
     private int mSlideLength;
-    
+
+    private int paintColor = Engine.DEFAULT_COLOR;
     private ClientFrontView clientFrontView=null;
 
     private static final int MSG_DISMISS = 1;
@@ -109,7 +109,7 @@ public class CustomSeekBar extends SeekBar{
         });
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(Engine.paintColor);
+        paint.setColor(paintColor);
 
         final Paint textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
@@ -221,7 +221,11 @@ public class CustomSeekBar extends SeekBar{
                 if (mPopupWindow.isShowing()) {
                     mHandler.sendEmptyMessageDelayed(MSG_DISMISS, 500);
                     Engine.paintSize = mRadius;
-                    clientFrontView.updatePaint();
+                    //TODO 笔画大小
+                    if (listener != null) {
+                        listener.onSizeChangeListener(mRadius);
+                    }
+//                    clientFrontView.updatePaint();
                 }
                 if (l != null) {
                     l.onStopTrackingTouch(seekBar);
@@ -240,5 +244,18 @@ public class CustomSeekBar extends SeekBar{
                 mPopupWindow.showAtLocation(anchor, Gravity.CENTER_VERTICAL, 0, 0);
             }
         });
+    }
+
+    public void setSeekBarColor(int color){
+        paintColor = color;
+    }
+
+    private OnSizeChangeListener listener;
+    public void setOnSizeChangeListener(OnSizeChangeListener listener){
+        this.listener = listener;
+    }
+
+    public interface OnSizeChangeListener{
+        void onSizeChangeListener(int size);
     }
 }

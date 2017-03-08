@@ -109,12 +109,6 @@ public class JoinRoom extends Activity {
 		wifiList = null;
 	}
 
-//	private void findView() {
-////		showWifiList = (TextView) findViewById(R.id.join_room_showwifilist);
-////		back = (Button) findViewById(R.id.join_room_return);
-////		wifiListView = (ListView) findViewById(R.id.join_room_wifilist);
-//
-//	}
 
 	private void listener() {
 		wifiListView.setOnItemClickListener(new OnItemClickListener() {
@@ -172,7 +166,7 @@ public class JoinRoom extends Activity {
 		else {
 			// 不需要密码
 
-			int id = wa.addWifiConfig(s.SSID, Engine.initPasswd);
+			int id = wa.addWifiConfig(s.SSID, Engine.DEFAULT_PASSWD);
 
 			if (id != -1) {
 				if (wa.connect(id)) {

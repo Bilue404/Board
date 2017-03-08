@@ -2,20 +2,12 @@ package com.bilue.board.graph;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
-
-
-
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Path;
 
 /**
  * Created by Administrator on 2015/8/12.
  */
-public class TextImpl implements GraphIF{
+public class TextImpl extends GraphIF{
     private String TAG = null;
-    private Paint mPaint = new Paint();
     private float startx = 0;
     private float starty = 0;
     private float endx = 100;
@@ -26,6 +18,7 @@ public class TextImpl implements GraphIF{
 
 
     public TextImpl(int penSize, int penColor,String text) {
+        super();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(penColor);
@@ -39,15 +32,14 @@ public class TextImpl implements GraphIF{
 
     }
 
+
     public void draw(Canvas canvas) {
-        // TODO Auto-generated method stub
         if (null != canvas) {
             canvas.drawText(text,endx,endy,mPaint);
         }
     }
 
     public void touchDown(float x, float y) {
-        // TODO Auto-generated method stub
         startx = x;
         starty = y;
         endx = x;
@@ -55,7 +47,6 @@ public class TextImpl implements GraphIF{
     }
 
     public void touchMove(float x, float y) {
-        // TODO Auto-generated method stub
         endx = x;
         endy = y;
     }
@@ -67,13 +58,11 @@ public class TextImpl implements GraphIF{
 
     @Override
     public String getTAG() {
-        // TODO Auto-generated method stub
         return TAG;
     }
 
     @Override
     public int getDrawPenStyle() {
-        // TODO Auto-generated method stub
         return drawPenStyle;
     }
 

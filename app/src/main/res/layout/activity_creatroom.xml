@@ -74,6 +74,13 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         >
+        <EditText
+            android:id="@+id/et_passwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入密码"
+            android:visibility="gone"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -100,7 +107,7 @@
                 />
 
             <TextView
-                android:id="@+id/tv_creat"
+                android:id="@+id/tv_create"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"

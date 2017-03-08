@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.bilue.board.R;
+import com.bilue.board.constant.IntentExtraConstant;
 import com.bilue.board.ui.SvgView;
 
 import butterknife.BindView;
@@ -26,36 +27,23 @@ public class MainActivity extends AppCompatActivity{
     @BindView( R.id.btn_creat_history ) Button btnCreatHistory;
     @BindView(R.id.btn_quite) Button btnQuite;
     @BindView(R.id.btn_history_room) Button btnHistoryRoom;
-    private Toolbar mToolbar;
+    @BindView(R.id.toolbar_main) Toolbar mToolbar;
     @BindView(R.id.ll_logo_root) LinearLayout llLogoRoot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         initView();
 
     }
 
 
     private void initView() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-
-//        llLogoRoot = (LinearLayout) findViewById(R.id.main_logo_root);
-//        btnCreatRoom = (Button) findViewById(R.id.main_creatroom);
-//        btnJoinRoom = (Button) findViewById(R.id.main_joinroom);
-//        btnHistoryRoom  = (Button) findViewById(R.id.mymain_historyroom);
-//        btnCreatHistory = (Button) findViewById(R.id.main_creathistory);
-//        btnQuite = (Button) findViewById(R.id.main_quite);
         LayoutInflater inflater = getLayoutInflater();
-
         addSvgView(inflater, llLogoRoot);
-//        btnCreatRoom.setOnClickListener(this);
-//        btnJoinRoom.setOnClickListener(this);
-//        btnCreatHistory.setOnClickListener(this);
-//        btnHistoryRoom.setOnClickListener(this);
-//        btnQuite.setOnClickListener(this);
     }
 
 
@@ -65,27 +53,8 @@ public class MainActivity extends AppCompatActivity{
         final SvgView svgView = (SvgView) view.findViewById(R.id.svg);
 
         svgView.setSvgResource(R.raw.board);
-        //view.setBackgroundResource(R.color.wheat);
-//        svgView.setmCallback(new SvgCompletedCallBack() {
-//
-//            @Override
-//            public void onSvgCompleted() {
-//                DoAgainBtn.setEnabled(true);
-//            }
-//        });
 
         container.addView(view);
-       // svgView.startAnimation();
-//        DoAgainBtn.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                DoAgainBtn.setEnabled(false);
-//                svgView.startAnimation();
-//
-//            }
-//        });
-//
         Handler handlerDelay = new Handler();
         handlerDelay.postDelayed(new Runnable(){
             public void run() {
@@ -98,7 +67,7 @@ public class MainActivity extends AppCompatActivity{
     @OnClick(R.id.btn_creat_room)
     public void creatRoom(){
         Intent creatIntent = new Intent(MainActivity.this, CreatRoom.class);
-        creatIntent.putExtra("path","");
+        creatIntent.putExtra(IntentExtraConstant.PATH,"");
         startActivity(creatIntent);
     }
 
@@ -118,34 +87,6 @@ public class MainActivity extends AppCompatActivity{
         System.exit(0);
     }
 
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.main_creatroom:
-//                Intent creatIntent = new Intent(MainActivity.this, CreatRoom.class);
-//                creatIntent.putExtra("path","");
-//                startActivity(creatIntent);
-//                break;
-//            case R.id.main_joinroom:
-//                Intent joinIntent = new Intent(MainActivity.this, JoinRoom.class);
-//                startActivity(joinIntent);
-//                break;
-//            case R.id.main_creathistory:
-//                Intent historyIntent = new Intent(MainActivity.this, HistoryListActivity.class);
-//                startActivity(historyIntent);
-//                break;
-//            case R.id.mymain_historyroom:
-//                Intent is = new Intent(MainActivity.this, NewHistoryListActivity.class);
-//                startActivity(is);
-//                break;
-//            case R.id.main_quite:
-//                System.exit(0);
-//                break;
-//
-//        }
-//
-//    }
 
 
 }

@@ -2,18 +2,19 @@ package com.bilue.board.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bilue.board.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class InfoActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
+    @BindView(R.id.toolbar_main) Toolbar mToolbar;
     private String path;
     private ImageView iv;
     @Override
@@ -26,7 +27,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
     private void init(){
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         iv = (ImageView) findViewById(R.id.iv);
         Bitmap bm = BitmapFactory.decodeFile(path);

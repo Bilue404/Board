@@ -30,7 +30,7 @@
 
             <Button
                 android:gravity="center"
-                android:id="@+id/board_color_picker"
+                android:id="@+id/btn_color_picker"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -38,7 +38,7 @@
         </LinearLayout>
 
         <com.bilue.board.ui.CustomSeekBar
-            android:id="@+id/board_myseek"
+            android:id="@+id/seekbar_paint_size"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"

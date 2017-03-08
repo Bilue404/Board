@@ -17,7 +17,19 @@
         <FrameLayout
             android:id="@+id/fl_draw_body"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent">
+            <com.bilue.board.view.ClientBgView
+                android:id="@+id/cbv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                />
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/drawer_view"
@@ -37,14 +49,15 @@
                     android:id="@+id/iv_menu_linepath"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/linepathed" />
+                    android:background="@drawable/menu_linepath_selector"
+                    />
 
 
                 <ImageView
                     android:id="@+id/iv_menu_line"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/line" />
+                    android:background="@drawable/menu_line_selector" />
             </LinearLayout>
 
             <LinearLayout
@@ -55,13 +68,13 @@
                     android:id="@+id/iv_menu_arrow"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/arrow" />
+                    android:background="@drawable/menu_arrow_selector" />
 
                 <ImageView
                     android:id="@+id/iv_menu_text"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/text" />
+                    android:background="@drawable/menu_text_selector" />
             </LinearLayout>
 
 
@@ -75,13 +88,13 @@
                     android:id="@+id/iv_menu_square"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/square" />
+                    android:background="@drawable/menu_square_selector" />
 
                 <ImageView
                     android:id="@+id/iv_menu_circular"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/circular" />
+                    android:background="@drawable/menu_circular_selector" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,13 +105,13 @@
                     android:id="@+id/iv_menu_undo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/undo" />
+                    android:background="@drawable/menu_undo_selector" />
 
                 <ImageView
                     android:id="@+id/iv_menu_redo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/redo" />
+                    android:background="@drawable/menu_redo_selector" />
             </LinearLayout>
 
 
@@ -111,14 +124,14 @@
                     android:id="@+id/iv_menu_eraser"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/eraser" />
+                    android:background="@drawable/menu_eraser_selector" />
 
                 <ImageView
 
                     android:id="@+id/iv_menu_clean"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/clear" />
+                    android:background="@drawable/menu_clean_selector" />
             </LinearLayout>
 
             <LinearLayout
@@ -129,13 +142,13 @@
                     android:id="@+id/iv_menu_last"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/last" />
+                    android:background="@drawable/menu_last_selector" />
 
                 <ImageView
                     android:id="@+id/iv_menu_next"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/next" />
+                    android:background="@drawable/menu_next_selector" />
             </LinearLayout>
 
 
@@ -147,13 +160,13 @@
                     android:id="@+id/iv_menu_new"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/add" />
+                    android:background="@drawable/menu_new_selector" />
 
                 <ImageView
                     android:id="@+id/iv_menu_delete"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/delect" />
+                    android:background="@drawable/menu_delete_selector" />
             </LinearLayout>
 
             <LinearLayout
@@ -164,13 +177,13 @@
                     android:id="@+id/iv_menu_save"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/save" />
+                    android:background="@drawable/menu_save_selector" />
 
                 <ImageView
                     android:id="@+id/iv_menu_quite"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/quite" />
+                    android:background="@drawable/menu_quite_selector" />
             </LinearLayout>
 
 

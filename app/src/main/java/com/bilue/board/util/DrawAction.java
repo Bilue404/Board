@@ -3,6 +3,9 @@ package com.bilue.board.util;
 import java.io.Serializable;
 
 public class DrawAction implements Serializable {
+	public static final String ACTION_DOWM = "ACTION_DOWN";
+	public static final String ACTION_MOVE = "ACTION_MOVE";
+	public static final String ACTION_UP = "ACTION_UP";
 	private String drawPenTAG;
 	private String action;
 	private float x;

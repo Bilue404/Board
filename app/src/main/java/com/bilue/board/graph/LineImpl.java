@@ -4,10 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-public class LineImpl implements GraphIF {
+public class LineImpl extends GraphIF {
 
 	private String TAG = null;
-	private Paint mPaint = new Paint();
 	private float startx = 0;
 	private float starty = 0;
 	private float endx = 0;
@@ -15,6 +14,7 @@ public class LineImpl implements GraphIF {
 	private int drawPenStyle = 3;
 	private Path triangle = new Path(); 
 	public LineImpl(int penSize, int penColor) {
+		super();
 		mPaint.setAntiAlias(true);
 		mPaint.setDither(true);
 		mPaint.setColor(penColor);

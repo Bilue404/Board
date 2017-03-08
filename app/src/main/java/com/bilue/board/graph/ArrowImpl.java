@@ -7,9 +7,8 @@ import android.graphics.Path;
 /**
  * Created by Administrator on 2015/8/12.
  */
-public class ArrowImpl implements GraphIF{
+public class ArrowImpl extends GraphIF{
     private String TAG = null;
-    private Paint mPaint = new Paint();
     private float startx = 0;
     private float starty = 0;
     private float endx = 0;
@@ -27,6 +26,7 @@ public class ArrowImpl implements GraphIF{
     //private Path triangle = new Path();
 
     public ArrowImpl(int penSize, int penColor) {
+        super();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(penColor);
@@ -42,7 +42,6 @@ public class ArrowImpl implements GraphIF{
     }
 
     public void draw(Canvas canvas) {
-        // TODO Auto-generated method stub
         if (null != canvas) {
             //canvas.drawLine(startx, starty, endx, endy, mPaint);
 
@@ -76,7 +75,6 @@ public class ArrowImpl implements GraphIF{
     }
 
     public void touchDown(float x, float y) {
-        // TODO Auto-generated method stub
         startx = x;
         starty = y;
         endx = x+10;
@@ -84,7 +82,6 @@ public class ArrowImpl implements GraphIF{
     }
 
     public void touchMove(float x, float y) {
-        // TODO Auto-generated method stub
         endx = x;
         endy = y;
     }
@@ -96,13 +93,11 @@ public class ArrowImpl implements GraphIF{
 
     @Override
     public String getTAG() {
-        // TODO Auto-generated method stub
         return TAG;
     }
 
     @Override
     public int getDrawPenStyle() {
-        // TODO Auto-generated method stub
         return drawPenStyle;
     }
 

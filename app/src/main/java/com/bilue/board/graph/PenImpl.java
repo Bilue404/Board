@@ -4,11 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-public class PenImpl implements GraphIF{
+public class PenImpl extends GraphIF{
 
 	private String TAG = null;
 	private Path mpath = new Path();
-	private Paint mpaint = new Paint();
 	private float startX =0;
 	private float startY =0;
 	
@@ -16,16 +15,17 @@ public class PenImpl implements GraphIF{
 	
 	
 	public PenImpl(int penSize, int penColor) {
-		mpaint.setStyle(Paint.Style.STROKE);
-		mpaint.setStrokeWidth(penSize);
-		mpaint.setColor(penColor);
+		super();
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeWidth(penSize);
+		mPaint.setColor(penColor);
 		this.TAG = 1+penSize+penColor+"";
 	}
 	
 	@Override
 	public void draw(Canvas canvas) {
 		if(canvas != null){
-			canvas.drawPath(mpath, mpaint);
+			canvas.drawPath(mpath, mPaint);
 		}
 	}
 

@@ -24,6 +24,9 @@ import com.bilue.board.util.History;
 import java.io.File;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2015/8/15.
  */
@@ -32,7 +35,7 @@ public class NewHistoryListActivity extends AppCompatActivity {
     private ArrayList<History> items;
     private SwipeMenuListView mListView;
     private MyHistoryAdapter mAdapter;
-    private Toolbar mToolbar;
+    @BindView(R.id.toolbar_main) Toolbar mToolbar;
 
 
     @Override
@@ -44,7 +47,7 @@ public class NewHistoryListActivity extends AppCompatActivity {
 
     private void init() {
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             String path = Environment.getExternalStorageDirectory().toString();

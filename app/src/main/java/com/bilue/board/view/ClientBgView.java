@@ -1,10 +1,5 @@
 package com.bilue.board.view;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.net.Socket;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,6 +13,10 @@ import android.view.View;
 import com.bilue.board.activity.Board;
 import com.bilue.board.util.BitmapUtil;
 import com.bilue.board.util.Engine;
+
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.net.Socket;
 
 public class ClientBgView extends View {
 
@@ -90,7 +89,7 @@ public class ClientBgView extends View {
 			try {
 				Thread.sleep(3000);// 暂停5S 再开始连接 防止服务器还在开启 导致连入失败
 
-				this.s = new Socket(Engine.ServerIp, Engine.Port);
+				this.s = new Socket(Engine.SERVER_IP, Engine.Port);
 				Engine.clientSocket = this.s;
 				// Log.i("client_test", "客户端建立成功");
 

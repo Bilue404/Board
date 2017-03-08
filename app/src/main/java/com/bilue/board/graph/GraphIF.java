@@ -1,8 +1,10 @@
 package com.bilue.board.graph;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
-public interface GraphIF {
+public abstract class GraphIF {
+	protected Paint mPaint;
 	//画笔类型
 	public static final int penTool = 1;
 	public static final int circlectTool = 2;
@@ -10,12 +12,18 @@ public interface GraphIF {
 	public static final int rectuTool = 4;
 	public static final int eraserTool = 5;
 
-	public void draw(Canvas canvas);
-	public void touchDown(float x, float y);
-	public void touchMove(float x, float y);
-	public void touchUp(float x, float y);
-	public String getTAG();
+	public GraphIF(){
+		mPaint = new Paint();
+	}
+
+	public abstract void draw(Canvas canvas);
+	public abstract void touchDown(float x, float y);
+	public abstract void touchMove(float x, float y);
+	public abstract void touchUp(float x, float y);
+	public abstract String getTAG();
 	
-	public int getDrawPenStyle();
+	public abstract int getDrawPenStyle();
+
+
 }
 

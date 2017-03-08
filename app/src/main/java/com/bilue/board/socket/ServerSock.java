@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.bilue.board.util.ControlStack;
 import com.bilue.board.util.DrawAction;
 import com.bilue.board.util.Engine;
 import com.bilue.board.util.GraphStack;
-import com.bilue.board.util.History;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -34,7 +32,6 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class ServerSock {
 
@@ -130,6 +127,10 @@ public class ServerSock {
 	}
 
 
+	//同步配置
+	public void syncConfig(){
+
+	}
 
 
 	// 初始化画布
@@ -392,6 +393,7 @@ public class ServerSock {
 		}
 
 		private void sendInitview(Socket s) {
+			Log.e("sendInitView","the view is send");
 			OutputStream ops = null;
 			DataOutputStream dos = null;
 			byte[] bitByt = null;
@@ -459,6 +461,7 @@ public class ServerSock {
 		}
 
 	}
+
 
 
 

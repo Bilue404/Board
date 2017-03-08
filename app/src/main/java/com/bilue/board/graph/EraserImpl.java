@@ -6,11 +6,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 
-public class EraserImpl implements GraphIF {
+public class EraserImpl extends GraphIF {
 	
 	private String TAG = null;
 	private Path mpath = new Path();
-	private Paint mpaint = new Paint();
 	private float startX =0;
 	private float startY =0;
 	
@@ -18,16 +17,17 @@ public class EraserImpl implements GraphIF {
 	
 	
 	public EraserImpl(int penSize) {
-		mpaint.setStyle(Paint.Style.STROKE);
-		mpaint.setStrokeWidth(penSize);
-		mpaint.setColor(Color.WHITE);
+		super();
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setStrokeWidth(penSize);
+		mPaint.setColor(Color.WHITE);
 		this.TAG = 5+penSize+Color.WHITE+"";
 	}
 	
 	@Override
 	public void draw(Canvas canvas) {
 		if(canvas != null){
-			canvas.drawPath(mpath, mpaint);
+			canvas.drawPath(mpath, mPaint);
 		}
 	}
 
