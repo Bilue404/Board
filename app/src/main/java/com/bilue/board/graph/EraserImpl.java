@@ -16,7 +16,7 @@ public class EraserImpl extends GraphIF {
 	private int drawPenStyle = 5;
 	
 	
-	public EraserImpl(int penSize) {
+	public EraserImpl(float penSize) {
 		super();
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeWidth(penSize);

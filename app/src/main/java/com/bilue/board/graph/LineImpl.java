@@ -13,7 +13,7 @@ public class LineImpl extends GraphIF {
 	private float endy = 0;
 	private int drawPenStyle = 3;
 	private Path triangle = new Path(); 
-	public LineImpl(int penSize, int penColor) {
+	public LineImpl(float penSize, int penColor) {
 		super();
 		mPaint.setAntiAlias(true);
 		mPaint.setDither(true);

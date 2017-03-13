@@ -11,7 +11,7 @@ public class DrawAction implements Serializable {
 	private float x;
 	private float y; 
 	private int drawPenStyle;
-	private int paintSize;
+	private float paintSize;
 	private int paintColor;
 	private String paintText;
 //	
@@ -26,7 +26,7 @@ public class DrawAction implements Serializable {
 	
 	
 	public DrawAction(String drawPenTAG, String action, float x, float y,
-			int drawPenStyle, int paintSize, int paintColor,String paintText) {
+			int drawPenStyle, float paintSize, int paintColor,String paintText) {
 		
 		this.drawPenTAG = drawPenTAG;
 		this.action = action;
@@ -58,7 +58,7 @@ public class DrawAction implements Serializable {
 	public int getDrawPenStyle() {
 		return drawPenStyle;
 	}
-	public int getPaintSize() {
+	public float getPaintSize() {
 		return paintSize;
 	}
 	public int getPaintColor() {

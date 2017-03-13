@@ -25,7 +25,7 @@ public class ArrowImpl extends GraphIF{
     private int y4 = 50;
     //private Path triangle = new Path();
 
-    public ArrowImpl(int penSize, int penColor) {
+    public ArrowImpl(float penSize, int penColor) {
         super();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);

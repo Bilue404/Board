@@ -13,7 +13,7 @@ public class RectuImpl extends GraphIF {
 
 	private int drawPenStyle = 4;
 
-	public RectuImpl(int penSize, int penColor) {
+	public RectuImpl(float penSize, int penColor) {
 		super();
 		mPaint.setAntiAlias(true);
 		mPaint.setDither(true);

@@ -12,7 +12,7 @@ public class CirclectlImpl extends GraphIF {
     private float endy = 0; 
     private float radius=0;   
     private int drawPenStyle = 2;
-    public CirclectlImpl(int penSize, int penColor)
+    public CirclectlImpl(float penSize, int penColor)
     {
 		super();
     	mPaint.setAntiAlias(true);

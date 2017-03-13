@@ -324,26 +324,26 @@ public class ServerSock {
 			if (!da.getdrawPenTAG().equals(clientDrawPen.getTAG())) {
 				switch (da.getDrawPenStyle()) {
 					case 1:
-						clientDrawPen = new PenImpl(da.getPaintSize(), da.getPaintColor());
+						clientDrawPen = new PenImpl(da.getPaintSize()/wScale, da.getPaintColor());
 						break;
 					case Engine.circlectTool:
-						clientDrawPen = new CirclectlImpl(da.getPaintSize(), da.getPaintColor());
+						clientDrawPen = new CirclectlImpl(da.getPaintSize()/wScale, da.getPaintColor());
 						break;
 					case Engine.lineTool:
-						clientDrawPen = new LineImpl(da.getPaintSize(), da.getPaintColor());
+						clientDrawPen = new LineImpl(da.getPaintSize()/wScale, da.getPaintColor());
 						break;
 					case Engine.rectuTool:
-						clientDrawPen = new RectuImpl(da.getPaintSize(), da.getPaintColor());
+						clientDrawPen = new RectuImpl(da.getPaintSize()/wScale, da.getPaintColor());
 						break;
 					case Engine.eraserTool:
 
-						clientDrawPen = new EraserImpl(da.getPaintSize());
+						clientDrawPen = new EraserImpl(da.getPaintSize()/wScale);
 						break;
 					case Engine.arrowTool:
-						clientDrawPen = new ArrowImpl(da.getPaintSize(),da.getPaintColor());
+						clientDrawPen = new ArrowImpl(da.getPaintSize()/wScale,da.getPaintColor());
 						break;
 					case Engine.textTool:
-						clientDrawPen = new TextImpl(da.getPaintSize(),da.getPaintColor(),da.getPaintText());
+						clientDrawPen = new TextImpl(da.getPaintSize()/wScale,da.getPaintColor(),da.getPaintText());
 						break;
 					default:
 						break;
@@ -382,11 +382,11 @@ public class ServerSock {
 			//如果是矢量图就只画结尾
 			else{
 				if (da.getAction().equals("ACTION_DOWN")) {
-					clientDrawPen.touchDown(da.getX(), da.getY());
+					clientDrawPen.touchDown(da.getX()/wScale, da.getY()/hScale);
 				} else if (da.getAction().equals("ACTION_MOVE")) {
-					clientDrawPen.touchMove(da.getX(), da.getY());
+					clientDrawPen.touchMove(da.getX()/wScale, da.getY()/hScale);
 				} else {
-					clientDrawPen.touchUp(da.getX(), da.getY());
+					clientDrawPen.touchUp(da.getX()/wScale, da.getY()/hScale);
 					clientDrawPen.draw(canvas);
 					myStack.push(baseBitmap);
 					graphStack.refresh(baseBitmap, Board.position);

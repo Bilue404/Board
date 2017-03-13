@@ -7,7 +7,9 @@ import com.bilue.board.util.ScreenUtils;
  */
 
 public class ZoomController {
+    //宽度基准
     public static final float NORM_WIDGET = 720f;
+    //高度基准
     public static final float NORM_HEIGHT = 1080f;
 
     private static float wScale = -1;

@@ -14,7 +14,7 @@ public class PenImpl extends GraphIF{
 	private int drawPenStyle = 1;
 	
 	
-	public PenImpl(int penSize, int penColor) {
+	public PenImpl(float penSize, int penColor) {
 		super();
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeWidth(penSize);

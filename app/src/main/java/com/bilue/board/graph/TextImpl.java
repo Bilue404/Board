@@ -17,7 +17,7 @@ public class TextImpl extends GraphIF{
 
 
 
-    public TextImpl(int penSize, int penColor,String text) {
+    public TextImpl(float penSize, int penColor,String text) {
         super();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
