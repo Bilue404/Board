@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bilue.board.activity.Board;
+import com.bilue.board.constant.Constant;
 import com.bilue.board.graph.ArrowImpl;
 import com.bilue.board.graph.CirclectlImpl;
 import com.bilue.board.graph.EraserImpl;
@@ -135,8 +136,9 @@ public class ServerSock {
 
 	// 初始化画布
 	public void initBitMap() {
-		this.baseBitmap = Bitmap.createBitmap(this.view.getWidth(),
-				this.view.getHeight(), Bitmap.Config.ARGB_8888);
+//		this.baseBitmap = Bitmap.createBitmap(this.view.getWidth(),
+//				this.view.getHeight(), Bitmap.Config.ARGB_8888);
+		this.baseBitmap = Bitmap.createBitmap(Constant.WIDGE, Constant.HEIGHT, Bitmap.Config.ARGB_8888);
 		this.canvas = new Canvas(this.baseBitmap);
 		this.canvas.drawColor(Color.WHITE);
 		myStack.push(baseBitmap);

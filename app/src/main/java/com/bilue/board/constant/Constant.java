@@ -11,4 +11,7 @@ public class Constant {
     public static final String JSON_y = "y";
     public static final String JSON_DRAW_PAINT_STYLE= "drawPaintStyle";
     public static final String JSON_DRAW_PAINT_COLOR= "drawPaintColor";
+
+    public static final int WIDGE = 720;
+    public static final int HEIGHT = 1080;
 }
