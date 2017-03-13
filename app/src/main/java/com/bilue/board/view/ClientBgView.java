@@ -3,6 +3,7 @@ package com.bilue.board.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
@@ -30,11 +31,12 @@ public class ClientBgView extends View {
 	private Thread conThread = null;
 	private Thread recThread = null;
 
+
 	public ClientBgView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		paint = new Paint();
 		myHandler = new MyHandler();
-
+		setBackgroundColor(Color.GRAY);
 	}
 
 	@Override
@@ -164,6 +166,9 @@ public class ClientBgView extends View {
 				// Log.i("client_test", "读数据结束");
 				// Log.i("client_test", "开始解析数据");
 				baseBitmap = BitmapUtil.Bytes2Bitmap(bitByte);
+//				Matrix matrix = new Matrix();
+//				matrix.postScale(1080f/720f,1920f/1080f);
+//				baseBitmap = Bitmap.createBitmap(tempBitmap,0,0,tempBitmap.getWidth(),tempBitmap.getHeight(),matrix,true);
 				// Log.i("client_test", "解析结束dis.read");
 
 				// 问题测试结果 bitbyte 拿得到

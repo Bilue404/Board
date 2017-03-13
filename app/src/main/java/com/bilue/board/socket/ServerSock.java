@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bilue.board.activity.Board;
-import com.bilue.board.constant.Constant;
+import com.bilue.board.controller.ZoomController;
 import com.bilue.board.graph.ArrowImpl;
 import com.bilue.board.graph.CirclectlImpl;
 import com.bilue.board.graph.EraserImpl;
@@ -46,6 +46,9 @@ public class ServerSock {
 	private ControlStack myStack;
 	private ServerSocket serverSocker;
 	private GraphStack graphStack;
+
+	private float hScale = ZoomController.getHeightScale();
+	private float wScale = ZoomController.getWidthScale();
 	// private GraphIF drawPenTool = new PenImpl(5,Color.BLACK);
 	public ServerSock() {
 	}
@@ -138,7 +141,7 @@ public class ServerSock {
 	public void initBitMap() {
 //		this.baseBitmap = Bitmap.createBitmap(this.view.getWidth(),
 //				this.view.getHeight(), Bitmap.Config.ARGB_8888);
-		this.baseBitmap = Bitmap.createBitmap(Constant.WIDGE, Constant.HEIGHT, Bitmap.Config.ARGB_8888);
+		this.baseBitmap = Bitmap.createBitmap((int)ZoomController.NORM_WIDGET, (int)ZoomController.NORM_HEIGHT, Bitmap.Config.ARGB_8888);
 		this.canvas = new Canvas(this.baseBitmap);
 		this.canvas.drawColor(Color.WHITE);
 		myStack.push(baseBitmap);
@@ -350,19 +353,19 @@ public class ServerSock {
 			drawBitMap(da);
 		}
 
-		private void drawBitMap(DrawAction da) {
 
+		private void drawBitMap(DrawAction da) {
 			//如果是笔画就全画
 			if(da.getDrawPenStyle()==1||da.getDrawPenStyle()==5){
 				if (da.getAction().equals("ACTION_DOWN")) {
 
-					clientDrawPen.touchDown(da.getX(), da.getY());
+					clientDrawPen.touchDown(da.getX()/wScale, da.getY()/hScale);
 					// Log.i("server_test", "--服务端：手指按下");
 				} else if (da.getAction().equals("ACTION_MOVE")) {
-					clientDrawPen.touchMove(da.getX(), da.getY());
+					clientDrawPen.touchMove(da.getX()/wScale, da.getY()/hScale);
 					 //Log.i("server_test", "--服务端：手指滑动");
 				} else {
-					clientDrawPen.touchUp(da.getX(), da.getY());
+					clientDrawPen.touchUp(da.getX()/wScale, da.getY()/hScale);
 					// Log.i("server_test", "--服务端：手指抬起");
 					clientDrawPen.draw(canvas);
 

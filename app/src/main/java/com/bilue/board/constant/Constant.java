@@ -12,6 +12,6 @@ public class Constant {
     public static final String JSON_DRAW_PAINT_STYLE= "drawPaintStyle";
     public static final String JSON_DRAW_PAINT_COLOR= "drawPaintColor";
 
-    public static final int WIDGE = 720;
-    public static final int HEIGHT = 1080;
+    public static final float WIDGE = 720f;
+    public static final float HEIGHT = 1080f;
 }

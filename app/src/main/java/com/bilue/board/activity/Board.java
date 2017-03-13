@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.bilue.board.R;
 import com.bilue.board.constant.IntentExtraConstant;
+import com.bilue.board.controller.ZoomController;
 import com.bilue.board.socket.ServerSock;
 import com.bilue.board.ui.CustomSeekBar;
 import com.bilue.board.util.BitmapUtil;
@@ -114,6 +117,11 @@ public class Board extends AppCompatActivity{
         serverBoardHandler = new ServerBoardHandler();
         //初始化选择状态
         reSetIconState(R.id.iv_menu_linepath);
+        Animation animation = new ScaleAnimation(1, ZoomController.getWidthScale(),1,ZoomController.getHeightScale());
+        animation.setFillBefore(false);
+        animation.setFillAfter(true);
+        cbv_Bg.startAnimation(animation);
+
 
     }
 
@@ -342,6 +350,7 @@ public class Board extends AppCompatActivity{
             @Override
             public void onSizeChangeListener(int size) {
                 paintSize = size;
+
                 cfv.setPaintSize(size);
             }
         });
@@ -363,11 +372,13 @@ public class Board extends AppCompatActivity{
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
 
+
         if (isFirstLoad) {
             pd = new ProgressDialog(this);
             pd.setTitle("请稍候");
             pd.setMessage("初始化会议室中 请不要进行操作");
             pd.show();
+
             Thread td = new Thread() {
                 @Override
                 public void run() {
@@ -383,6 +394,8 @@ public class Board extends AppCompatActivity{
 
     public void initBgView() {
         // 初始化连接 获取背景
+
+
         if (!Engine.isClient) {
             if(myPath==null||myPath.equals("")){
                 ss = new ServerSock(cbv_Bg);
@@ -650,7 +663,10 @@ public class Board extends AppCompatActivity{
                         tvPosition.setText(ss.getCount()+"/"+ss.getCount());
                     }
 
-
+//                    Animation animation = new ScaleAnimation(1,1080f/720f,1,1920f/1080f);
+//                    animation.setFillBefore(false);
+//                    animation.setFillAfter(true);
+//                    cbv_Bg.startAnimation(animation);
 
                     break;
             }
