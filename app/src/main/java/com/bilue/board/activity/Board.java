@@ -117,7 +117,7 @@ public class Board extends AppCompatActivity{
         serverBoardHandler = new ServerBoardHandler();
         //初始化选择状态
         reSetIconState(R.id.iv_menu_linepath);
-        Animation animation = new ScaleAnimation(1, ZoomController.getWidthScale(),1,ZoomController.getHeightScale());
+        Animation animation = new ScaleAnimation(1, ZoomController.getScale(),1,ZoomController.getScale());
         animation.setFillBefore(false);
         animation.setFillAfter(true);
         cbv_Bg.startAnimation(animation);

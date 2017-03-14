@@ -47,8 +47,9 @@ public class ServerSock {
 	private ServerSocket serverSocker;
 	private GraphStack graphStack;
 
-	private float hScale = ZoomController.getHeightScale();
-	private float wScale = ZoomController.getWidthScale();
+//	private float hScale = ZoomController.getHeightScale();
+//	private float wScale = ZoomController.getWidthScale();
+	private float scale = ZoomController.getScale();
 	// private GraphIF drawPenTool = new PenImpl(5,Color.BLACK);
 	public ServerSock() {
 	}
@@ -324,26 +325,26 @@ public class ServerSock {
 			if (!da.getdrawPenTAG().equals(clientDrawPen.getTAG())) {
 				switch (da.getDrawPenStyle()) {
 					case 1:
-						clientDrawPen = new PenImpl(da.getPaintSize()/wScale, da.getPaintColor());
+						clientDrawPen = new PenImpl(da.getPaintSize(), da.getPaintColor());
 						break;
 					case Engine.circlectTool:
-						clientDrawPen = new CirclectlImpl(da.getPaintSize()/wScale, da.getPaintColor());
+						clientDrawPen = new CirclectlImpl(da.getPaintSize(), da.getPaintColor());
 						break;
 					case Engine.lineTool:
-						clientDrawPen = new LineImpl(da.getPaintSize()/wScale, da.getPaintColor());
+						clientDrawPen = new LineImpl(da.getPaintSize(), da.getPaintColor());
 						break;
 					case Engine.rectuTool:
-						clientDrawPen = new RectuImpl(da.getPaintSize()/wScale, da.getPaintColor());
+						clientDrawPen = new RectuImpl(da.getPaintSize(), da.getPaintColor());
 						break;
 					case Engine.eraserTool:
 
-						clientDrawPen = new EraserImpl(da.getPaintSize()/wScale);
+						clientDrawPen = new EraserImpl(da.getPaintSize());
 						break;
 					case Engine.arrowTool:
-						clientDrawPen = new ArrowImpl(da.getPaintSize()/wScale,da.getPaintColor());
+						clientDrawPen = new ArrowImpl(da.getPaintSize(),da.getPaintColor());
 						break;
 					case Engine.textTool:
-						clientDrawPen = new TextImpl(da.getPaintSize()/wScale,da.getPaintColor(),da.getPaintText());
+						clientDrawPen = new TextImpl(da.getPaintSize(),da.getPaintColor(),da.getPaintText());
 						break;
 					default:
 						break;
@@ -359,13 +360,13 @@ public class ServerSock {
 			if(da.getDrawPenStyle()==1||da.getDrawPenStyle()==5){
 				if (da.getAction().equals("ACTION_DOWN")) {
 
-					clientDrawPen.touchDown(da.getX()/wScale, da.getY()/hScale);
+					clientDrawPen.touchDown(da.getX()/scale, da.getY()/scale);
 					// Log.i("server_test", "--服务端：手指按下");
 				} else if (da.getAction().equals("ACTION_MOVE")) {
-					clientDrawPen.touchMove(da.getX()/wScale, da.getY()/hScale);
+					clientDrawPen.touchMove(da.getX()/scale, da.getY()/scale);
 					 //Log.i("server_test", "--服务端：手指滑动");
 				} else {
-					clientDrawPen.touchUp(da.getX()/wScale, da.getY()/hScale);
+					clientDrawPen.touchUp(da.getX()/scale, da.getY()/scale);
 					// Log.i("server_test", "--服务端：手指抬起");
 					clientDrawPen.draw(canvas);
 
@@ -382,11 +383,11 @@ public class ServerSock {
 			//如果是矢量图就只画结尾
 			else{
 				if (da.getAction().equals("ACTION_DOWN")) {
-					clientDrawPen.touchDown(da.getX()/wScale, da.getY()/hScale);
+					clientDrawPen.touchDown(da.getX()/scale, da.getY()/scale);
 				} else if (da.getAction().equals("ACTION_MOVE")) {
-					clientDrawPen.touchMove(da.getX()/wScale, da.getY()/hScale);
+					clientDrawPen.touchMove(da.getX()/scale, da.getY()/scale);
 				} else {
-					clientDrawPen.touchUp(da.getX()/wScale, da.getY()/hScale);
+					clientDrawPen.touchUp(da.getX()/scale, da.getY()/scale);
 					clientDrawPen.draw(canvas);
 					myStack.push(baseBitmap);
 					graphStack.refresh(baseBitmap, Board.position);

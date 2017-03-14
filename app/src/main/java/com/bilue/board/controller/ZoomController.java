@@ -12,22 +12,16 @@ public class ZoomController {
     //高度基准
     public static final float NORM_HEIGHT = 1080f;
 
-    private static float wScale = -1;
-    private static float hScale = -1;
+    private static float scale = -1;
+    
 
-    public static float getWidthScale(){
-        if (wScale == -1 ){
-            wScale = ScreenUtils.getWidthInPx()/NORM_WIDGET;
+    public static float getScale(){
+        if (scale == -1 ){
+            float hScale = ScreenUtils.getHeightInPx()/NORM_HEIGHT;
+            float wScale = ScreenUtils.getWidthInPx()/NORM_WIDGET;
+            scale = hScale>wScale?wScale:hScale;
         }
-        return wScale;
+
+        return scale;
     }
-
-    public static float getHeightScale(){
-        if (hScale == -1){
-            hScale = ScreenUtils.getHeightInPx()/NORM_HEIGHT;
-        }
-        return hScale;
-    }
-
-
 }
