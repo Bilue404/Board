@@ -2,11 +2,13 @@ package com.bilue.board.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,6 +29,7 @@ import com.bilue.board.R;
 import com.bilue.board.constant.IntentExtraConstant;
 import com.bilue.board.controller.ZoomController;
 import com.bilue.board.socket.ServerSock;
+import com.bilue.board.task.ReceiveTask;
 import com.bilue.board.ui.CustomSeekBar;
 import com.bilue.board.util.BitmapUtil;
 import com.bilue.board.util.Engine;
@@ -36,6 +39,8 @@ import com.fourmob.colorpicker.ColorPickerDialog;
 import com.fourmob.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,13 +75,19 @@ public class Board extends AppCompatActivity{
     private String myPath;
     public static int position=1;
 
+
+    private HandlerThread sendThread;
+    private Handler sendHandler;
+    private Runnable sendActionTask;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
         myPath=getIntent().getExtras().getString(IntentExtraConstant.PATH); //历史数据
-
+//        sendThread = new HandlerThread("sendAction");
+//        sendThread.start();
+//        sendHandler = new Handler(sendHandler.getLooper());
 
         initView();
         listener();
@@ -342,6 +353,13 @@ public class Board extends AppCompatActivity{
             }
         });
 
+
+//        cfv.setOnActionChangeListener(new ClientFrontView.OnActionChangeListener() {
+//            @Override
+//            public void onActionChange(String drawPenTAG, int drawPenStyle, String action, float x, float y) {
+//
+//            }
+//        });
     }
 
 
@@ -356,7 +374,6 @@ public class Board extends AppCompatActivity{
     // 放在这里的原因是 服务器需要获得view 的大小 来构造画布大小
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
 
 
@@ -394,7 +411,38 @@ public class Board extends AppCompatActivity{
 
         }
 
-        cbv_Bg.connectServer();
+        try {
+            Thread.sleep(3000);// 暂停5S 再开始连接 防止服务器还在开启 导致连入失败
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            final Socket s = new Socket(Engine.SERVER_IP, Engine.Port);
+            Engine.clientSocket = s;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    initDrawView();
+                    pd.dismiss();
+
+                    if(!myPath.equals("")){
+                        position = ss.getCount();
+                        tvPosition.setText(ss.getCount()+"/"+ss.getCount());
+                    }
+
+                    startReceive(s);
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        cbv_Bg.connectServer();
+
+
     }
 
     // 加载drawview 需要先先加载bgview 才能得到socket
@@ -404,6 +452,15 @@ public class Board extends AppCompatActivity{
         flDrawbody.addView(cfv);
 
     }
+
+    private void startReceive(Socket socket){
+        if (socket != null) {
+            ReceiveHandler handler = new ReceiveHandler();
+            Thread td = new Thread(new ReceiveTask(socket,handler));
+            td.start();
+        }
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -659,5 +716,17 @@ public class Board extends AppCompatActivity{
         }
     }
 
+
+    public class ReceiveHandler extends Handler{
+        public static final int UPDATE_VIEW = 111;
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == UPDATE_VIEW){
+                Bitmap bitmap = (Bitmap) msg.obj;
+                cbv_Bg.setBitmap(bitmap);
+            }
+        }
+    }
 
 }

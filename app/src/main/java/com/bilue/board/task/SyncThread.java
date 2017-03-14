@@ -1,4 +1,4 @@
-package com.bilue.board.thread;
+package com.bilue.board.task;
 
 import com.bilue.board.controller.ConfigController;
 

@@ -37,6 +37,7 @@ public class ClientFrontView extends View {
 	private int paintStyle = Engine.penTool;
 	private float paintSize = Engine.DEFAULT_SIZE/scale;
 	private int paintColor = Engine.DEFAULT_COLOR;
+	private OnActionChangeListener listener;
 	public ClientFrontView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
@@ -98,6 +99,12 @@ public class ClientFrontView extends View {
 		updatePaint();
 	}
 
+	public void setOnActionChangeListener(OnActionChangeListener listener){
+		this.listener = listener;
+	}
+
+
+
 	@Override
 	public void draw(Canvas canvas) {
 		// TODO 重写draw方法
@@ -138,29 +145,42 @@ public class ClientFrontView extends View {
 				startX = event.getX();
 				startY = event.getY();
 
-			drawPenTool.touchDown(startX, startY);
-			st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
-			invalidate();
+				drawPenTool.touchDown(startX, startY);
+
+				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
+
+				if (listener != null) {
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
+				}
+				invalidate();
 				break;
 
 			case MotionEvent.ACTION_MOVE:
 				float endX;
 				float endY;
 				endX = event.getX();
-			endY = event.getY();
-			drawPenTool.touchMove(endX, endY);
-			st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
+				endY = event.getY();
+				drawPenTool.touchMove(endX, endY);
+				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
+
+				if (listener != null) {
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
+				}
+
 				invalidate();
 
 				break;
 			case MotionEvent.ACTION_UP:
 
-			drawPenTool.touchUp(event.getX(), event.getY());
-			st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(),
-					event.getY());
+				drawPenTool.touchUp(event.getX(), event.getY());
+				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(),
+						event.getY());
 
-			isUp=true;
-			invalidate();
+				isUp=true;
+				if (listener != null) {
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(), event.getY());
+				}
+				invalidate();
 
 			break;
 
@@ -223,6 +243,11 @@ public class ClientFrontView extends View {
 			}
 		}
 
+	}
+
+
+	public interface OnActionChangeListener{
+		void onActionChange(String drawPenTAG, int drawPenStyle , String action, float x, float y);
 	}
 
 }

@@ -51,6 +51,13 @@ public class ClientBgView extends View {
 		}
 	}
 
+	public void setBitmap(Bitmap bitmap){
+		if (bitmap!=null){
+			baseBitmap = bitmap;
+			invalidate();
+		}
+	}
+
 	// 连接服务器
 	public void connectServer() {
 		connectThread ct = new connectThread();
