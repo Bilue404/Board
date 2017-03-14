@@ -29,7 +29,7 @@ public class ClientFrontView extends View {
 
 	private Thread sendActionThread = null;
 	private GraphIF drawPenTool = null;
-	private SendThread st = null;
+//	private SendThread st = null;
 	//判断是否抬起手了
 	private boolean isUp = true;
 	private float scale = ZoomController.getScale();
@@ -48,9 +48,11 @@ public class ClientFrontView extends View {
 
 	public void init() {
 		drawPenTool = Engine.drawPenTool;
-		st = new SendThread(Engine.clientSocket);
-		sendActionThread = new Thread(st);
-		sendActionThread.start();
+
+//		st = new SendThread(Engine.clientSocket);
+//		sendActionThread = new Thread(st);
+//		sendActionThread.start();
+
 		//Log.i("client_test", "UI线程启动了");
 	}
 
@@ -147,10 +149,10 @@ public class ClientFrontView extends View {
 
 				drawPenTool.touchDown(startX, startY);
 
-				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
+//				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
 
 				if (listener != null) {
-					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY,paintSize,paintColor,Engine.paintText);
 				}
 				invalidate();
 				break;
@@ -161,10 +163,10 @@ public class ClientFrontView extends View {
 				endX = event.getX();
 				endY = event.getY();
 				drawPenTool.touchMove(endX, endY);
-				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
+//				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
 
 				if (listener != null) {
-					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY,paintSize,paintColor,Engine.paintText);
 				}
 
 				invalidate();
@@ -173,12 +175,12 @@ public class ClientFrontView extends View {
 			case MotionEvent.ACTION_UP:
 
 				drawPenTool.touchUp(event.getX(), event.getY());
-				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(),
-						event.getY());
+//				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(),
+//						event.getY());
 
 				isUp=true;
 				if (listener != null) {
-					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(), event.getY());
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(), event.getY(),paintSize,paintColor,Engine.paintText);
 				}
 				invalidate();
 
@@ -247,7 +249,7 @@ public class ClientFrontView extends View {
 
 
 	public interface OnActionChangeListener{
-		void onActionChange(String drawPenTAG, int drawPenStyle , String action, float x, float y);
+		void onActionChange(String drawPenTAG, int drawPenStyle , String action, float x, float y, float paintSize, int paintColor,String paintText);
 	}
 
 }

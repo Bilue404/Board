@@ -13,6 +13,7 @@ import java.net.Socket;
 
 /**
  * Created by bilue on 17/3/14.
+ * 接收任务， 将接收的数据解析成bitmap 然后更新
  */
 
 public class ReceiveTask implements Runnable {

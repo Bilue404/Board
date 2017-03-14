@@ -8,13 +8,13 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -30,8 +30,10 @@ import com.bilue.board.constant.IntentExtraConstant;
 import com.bilue.board.controller.ZoomController;
 import com.bilue.board.socket.ServerSock;
 import com.bilue.board.task.ReceiveTask;
+import com.bilue.board.task.SendActionTask;
 import com.bilue.board.ui.CustomSeekBar;
 import com.bilue.board.util.BitmapUtil;
+import com.bilue.board.util.DrawAction;
 import com.bilue.board.util.Engine;
 import com.bilue.board.view.ClientBgView;
 import com.bilue.board.view.ClientFrontView;
@@ -51,13 +53,8 @@ import butterknife.OnClick;
 public class Board extends AppCompatActivity{
 
     private boolean isFirstLoad = true; // 用于标志是否第一次 用于开启服务
-
-    public static ServerBoardHandler serverBoardHandler;
-    private ProgressDialog pd;
     private ClientFrontView cfv = null;
     @BindView(R.id.btn_color_picker) Button btnColorPicker;
-    private GradientDrawable myGrad;// 顶端小圆点
-    private ColorPickerDialog colorPickerDialog;
     @BindView(R.id.seekbar_paint_size) CustomSeekBar seekbarPaintSize;
     @BindViews({R.id.iv_menu_linepath,R.id.iv_menu_line,R.id.iv_menu_square,R.id.iv_menu_circular,
             R.id.iv_menu_arrow,R.id.iv_menu_text,R.id.iv_menu_eraser, R.id.iv_menu_save,
@@ -71,14 +68,13 @@ public class Board extends AppCompatActivity{
     @BindView(R.id.tv_position) TextView tvPosition;
 
     private ServerSock ss;//socket通讯 redo undo clean 等操作
-
+    private Socket socket;
     private String myPath;
     public static int position=1;
 
-
-    private HandlerThread sendThread;
-    private Handler sendHandler;
-    private Runnable sendActionTask;
+    private GradientDrawable myGrad;// 顶端小圆点
+    private ColorPickerDialog colorPickerDialog;
+    private SendActionTask sendActionTask;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +86,13 @@ public class Board extends AppCompatActivity{
 //        sendHandler = new Handler(sendHandler.getLooper());
 
         initView();
-        listener();
+        startRendererServer();
+
+
+        cfv = new ClientFrontView(Board.this, null);
+        flDrawbody.addView(cfv);
+
+        setListener();
 
     }
 
@@ -121,7 +123,6 @@ public class Board extends AppCompatActivity{
         mDrawerToggle.syncState();
         //显示动画
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        serverBoardHandler = new ServerBoardHandler();
         //初始化选择状态
         reSetIconState(R.id.iv_menu_linepath);
         Animation animation = new ScaleAnimation(1, ZoomController.getScale(),1,ZoomController.getScale());
@@ -327,7 +328,7 @@ public class Board extends AppCompatActivity{
         }
     }
 
-    private void listener() {
+    private void setListener() {
 
 
         colorPickerDialog
@@ -354,31 +355,23 @@ public class Board extends AppCompatActivity{
         });
 
 
-//        cfv.setOnActionChangeListener(new ClientFrontView.OnActionChangeListener() {
-//            @Override
-//            public void onActionChange(String drawPenTAG, int drawPenStyle, String action, float x, float y) {
-//
-//            }
-//        });
+        cfv.setOnActionChangeListener(new ClientFrontView.OnActionChangeListener() {
+            @Override
+            public void onActionChange(String drawPenTAG, int drawPenStyle , String action, float x, float y, float paintSize, int paintColor,String paintText){
+                DrawAction da = new DrawAction(drawPenTAG, action, x, y, drawPenStyle, paintSize, paintColor,Engine.paintText);
+                Log.e("onActionChange","the da is "+da+"&sendAction is "+sendActionTask);
+                if (da!=null && sendActionTask!=null){
+                    sendActionTask.sendAction(da);
+                }
+            }
+        });
     }
 
 
-    @Override
-    protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-
-
-    }
-
-    // 放在这里的原因是 服务器需要获得view 的大小 来构造画布大小
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
+    private void startRendererServer(){
 
         if (isFirstLoad) {
-            pd = new ProgressDialog(this);
+            final ProgressDialog pd = new ProgressDialog(this);
             pd.setTitle("请稍候");
             pd.setMessage("初始化会议室中 请不要进行操作");
             pd.show();
@@ -386,8 +379,43 @@ public class Board extends AppCompatActivity{
             Thread td = new Thread() {
                 @Override
                 public void run() {
-                    super.run();
-                    initBgView();
+                    if (!Engine.isClient) {
+                        //建立服务端
+                        if(myPath==null||myPath.equals("")){
+                            ss = new ServerSock();
+                        }
+                        else {
+                            ss = new ServerSock(myPath);
+                        }
+
+
+                        //渲染进程开启
+                        try {
+                            Thread.sleep(3000);// 暂停5S 再开始连接 防止服务器还在开启 导致连入失败
+                            final Socket s = new Socket(Engine.SERVER_IP, Engine.Port);
+                            Engine.clientSocket = s;
+                            socket = s;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initDrawView();
+                                    pd.dismiss();
+
+                                    if(!myPath.equals("")){
+                                        position = ss.getCount();
+                                        tvPosition.setText(ss.getCount()+"/"+ss.getCount());
+                                    }
+
+                                    startReceive(s);
+                                }
+                            });
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             };
             td.start();
@@ -396,49 +424,75 @@ public class Board extends AppCompatActivity{
         }
     }
 
+    // 放在这里的原因是 服务器需要获得view 的大小 来构造画布大小
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+
+//        if (isFirstLoad) {
+//            final ProgressDialog pd = new ProgressDialog(this);
+//            pd.setTitle("请稍候");
+//            pd.setMessage("初始化会议室中 请不要进行操作");
+//            pd.show();
+//
+//            Thread td = new Thread() {
+//                @Override
+//                public void run() {
+//                    if (!Engine.isClient) {
+//                        //建立服务端
+//                        if(myPath==null||myPath.equals("")){
+//                            ss = new ServerSock();
+//                        }
+//                        else {
+//                            ss = new ServerSock(myPath);
+//                        }
+//
+//
+//                        //渲染进程开启
+//                        try {
+//                            Thread.sleep(3000);// 暂停5S 再开始连接 防止服务器还在开启 导致连入失败
+//                            final Socket s = new Socket(Engine.SERVER_IP, Engine.Port);
+//                            Engine.clientSocket = s;
+//
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    initDrawView();
+//                                    pd.dismiss();
+//
+//                                    if(!myPath.equals("")){
+//                                        position = ss.getCount();
+//                                        tvPosition.setText(ss.getCount()+"/"+ss.getCount());
+//                                    }
+//
+//                                    startReceive(s);
+//                                }
+//                            });
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            };
+//            td.start();
+//
+//            isFirstLoad = false;
+//        }
+    }
+
     public void initBgView() {
         // 初始化连接 获取背景
 
 
-        if (!Engine.isClient) {
-            if(myPath==null||myPath.equals("")){
-                ss = new ServerSock(cbv_Bg);
-            }
-            else {
 
-                ss = new ServerSock(cbv_Bg,myPath);
-            }
 
-        }
 
-        try {
-            Thread.sleep(3000);// 暂停5S 再开始连接 防止服务器还在开启 导致连入失败
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            final Socket s = new Socket(Engine.SERVER_IP, Engine.Port);
-            Engine.clientSocket = s;
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    initDrawView();
-                    pd.dismiss();
-
-                    if(!myPath.equals("")){
-                        position = ss.getCount();
-                        tvPosition.setText(ss.getCount()+"/"+ss.getCount());
-                    }
-
-                    startReceive(s);
-                }
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 //        cbv_Bg.connectServer();
 
@@ -448,8 +502,8 @@ public class Board extends AppCompatActivity{
     // 加载drawview 需要先先加载bgview 才能得到socket
     public void initDrawView() {
 
-        cfv = new ClientFrontView(Board.this, null);
-        flDrawbody.addView(cfv);
+//        cfv = new ClientFrontView(Board.this, null);
+//        flDrawbody.addView(cfv);
 
     }
 
@@ -459,8 +513,20 @@ public class Board extends AppCompatActivity{
             Thread td = new Thread(new ReceiveTask(socket,handler));
             td.start();
         }
+
+
+        startSendActionServer(socket);
+
     }
 
+    private void startSendActionServer(Socket socket){
+        if (socket!=null){
+            sendActionTask = new SendActionTask(socket);
+            Thread sendActionThread = new Thread(sendActionTask);
+            sendActionThread.start();
+        }
+
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -688,32 +754,6 @@ public class Board extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         System.exit(0);
-    }
-
-    public class ServerBoardHandler extends Handler {
-
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 6565:// 连接成功 圈圈消失
-                    initDrawView();
-                    pd.dismiss();
-
-                    if(!myPath.equals("")){
-                        position = ss.getCount();
-                        tvPosition.setText(ss.getCount()+"/"+ss.getCount());
-                    }
-
-//                    Animation animation = new ScaleAnimation(1,1080f/720f,1,1920f/1080f);
-//                    animation.setFillBefore(false);
-//                    animation.setFillAfter(true);
-//                    cbv_Bg.startAnimation(animation);
-
-                    break;
-            }
-        }
     }
 
 

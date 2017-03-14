@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.View;
 
 import com.bilue.board.activity.Board;
 import com.bilue.board.controller.ZoomController;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
 public class ServerSock {
 
 	private Canvas canvas = null;
-	private View view;
 	private Bitmap baseBitmap = null;
 	private Paint paint;
 	private Thread openServerThread = null;
@@ -51,11 +49,8 @@ public class ServerSock {
 //	private float wScale = ZoomController.getWidthScale();
 	private float scale = ZoomController.getScale();
 	// private GraphIF drawPenTool = new PenImpl(5,Color.BLACK);
-	public ServerSock() {
-	}
 
-	public ServerSock(View view) {
-		this.view = view;
+	public ServerSock() {
 		userList = new ArrayList<Socket>();
 		initPaint();
 
@@ -66,7 +61,7 @@ public class ServerSock {
 
 	}
 
-	public ServerSock(View view,String path) {
+	public ServerSock(String path) {
 
 
 		String myDir = path + "/";
@@ -90,8 +85,6 @@ public class ServerSock {
 		}
 
 		graphStack = new GraphStack(items);
-
-		this.view = view;
 		userList = new ArrayList<Socket>();
 		initPaint();
 
