@@ -145,12 +145,12 @@ public class CreatRoom extends AppCompatActivity {
 					wifiUtil.creatAp(ssid, pwd, true);
 					Engine.isClient = false;
 					//Engine.SERVER_IP = wifiUtil.getIpAddress()+"";
-					try {
-						Thread.sleep(2000); // 停顿  为了UI 好看
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					try {
+//						Thread.sleep(2000); // 停顿  为了UI 好看
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 						
 					Message msg = new Message();
 					msg.what = 2;

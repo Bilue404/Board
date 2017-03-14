@@ -25,7 +25,6 @@ import android.widget.SeekBar;
 
 import com.bilue.board.R;
 import com.bilue.board.util.Engine;
-import com.bilue.board.view.ClientFrontView;
 
 /**
  * @description CustomSeekBar
@@ -50,7 +49,6 @@ public class CustomSeekBar extends SeekBar{
     private int mSlideLength;
 
     private int paintColor = Engine.DEFAULT_COLOR;
-    private ClientFrontView clientFrontView=null;
 
     private static final int MSG_DISMISS = 1;
 
@@ -120,7 +118,7 @@ public class CustomSeekBar extends SeekBar{
             protected void onDraw(Canvas canvas) {
                 super.onDraw(canvas);
                 paint.setStrokeWidth(mRadius);
-                paint.setColor(Engine.paintColor);
+                paint.setColor(paintColor);
                 //canvas.drawBitmap(mBitmap, mOffsetX, 0, paint);
                 canvas.drawLine(40, height / 2, width-40, height / 2, paint);
                 canvas.drawText(mRadius+"", width/2-40, height/2+100, textPaint);
@@ -178,10 +176,7 @@ public class CustomSeekBar extends SeekBar{
     }
 
     
-    public void sendClient(ClientFrontView cfv){
-    	clientFrontView = cfv;
-    }
-    
+
     
     
     @Override
@@ -220,7 +215,7 @@ public class CustomSeekBar extends SeekBar{
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (mPopupWindow.isShowing()) {
                     mHandler.sendEmptyMessageDelayed(MSG_DISMISS, 500);
-                    Engine.paintSize = mRadius;
+//                    Engine.paintSize = mRadius;
                     //TODO 笔画大小
                     if (listener != null) {
                         listener.onSizeChangeListener(mRadius);

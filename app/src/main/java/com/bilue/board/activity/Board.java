@@ -70,10 +70,6 @@ public class Board extends AppCompatActivity{
     private String myPath;
     public static int position=1;
 
-    private int paintType = Engine.penTool;
-    private int paintSize = 5;
-    private int paintColor = Color.BLACK;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +124,6 @@ public class Board extends AppCompatActivity{
     @OnClick(R.id.iv_menu_linepath)
     public void linePath(){
         Engine.DRAW_PEN_STYLE = Engine.penTool;
-        paintType = Engine.penTool;
         setPaint(Engine.penTool);
         reSetIconState(R.id.iv_menu_linepath);
 
@@ -137,7 +132,6 @@ public class Board extends AppCompatActivity{
     @OnClick(R.id.iv_menu_line)
     public void Line(){
         Engine.DRAW_PEN_STYLE = Engine.lineTool;
-        paintType = Engine.lineTool;
         setPaint(Engine.lineTool);
         reSetIconState(R.id.iv_menu_line);
 
@@ -146,7 +140,6 @@ public class Board extends AppCompatActivity{
     @OnClick(R.id.iv_menu_arrow)
     public void arrow(){
         Engine.DRAW_PEN_STYLE = Engine.arrowTool;
-        paintType = Engine.arrowTool;
         setPaint(Engine.arrowTool);
 
         reSetIconState(R.id.iv_menu_arrow);
@@ -168,7 +161,6 @@ public class Board extends AppCompatActivity{
 
                 } else {
                     Engine.DRAW_PEN_STYLE = Engine.textTool;
-                    paintType = Engine.textTool;
                     setPaint(Engine.textTool);
                     reSetIconState(R.id.iv_menu_text);
                 }
@@ -181,7 +173,6 @@ public class Board extends AppCompatActivity{
     @OnClick(R.id.iv_menu_square)
     public void square(){
         Engine.DRAW_PEN_STYLE = Engine.rectuTool;
-        paintType = Engine.rectuTool;
         setPaint(Engine.rectuTool);
 
 
@@ -190,7 +181,6 @@ public class Board extends AppCompatActivity{
     @OnClick(R.id.iv_menu_circular)
     public void circular(){
         Engine.DRAW_PEN_STYLE = Engine.circlectTool;
-        paintType = Engine.circlectTool;
         setPaint(Engine.circlectTool);
         reSetIconState(R.id.iv_menu_circular);
     }
@@ -224,7 +214,6 @@ public class Board extends AppCompatActivity{
     @OnClick(R.id.iv_menu_eraser)
     public void eraser(){
         Engine.DRAW_PEN_STYLE = Engine.eraserTool;
-        paintType = Engine.eraserTool;
         setPaint(Engine.eraserTool);
         reSetIconState(R.id.iv_menu_eraser);
 
@@ -337,10 +326,9 @@ public class Board extends AppCompatActivity{
                     public void onColorSelected(int color) {
 //                        Toast.makeText(Board.this, "selectedColor : " + color,
 //                                Toast.LENGTH_SHORT).show();
-                        Engine.paintColor = color;
+//                        Engine.paintColor = color;
                         myGrad.setColor(color);
                         seekbarPaintSize.setSeekBarColor(color);
-                        paintColor = color;
                         cfv.setPaintColor(color);
                     }
                 });
@@ -349,7 +337,6 @@ public class Board extends AppCompatActivity{
         seekbarPaintSize.setOnSizeChangeListener(new CustomSeekBar.OnSizeChangeListener() {
             @Override
             public void onSizeChangeListener(int size) {
-                paintSize = size;
 
                 cfv.setPaintSize(size);
             }
@@ -414,7 +401,6 @@ public class Board extends AppCompatActivity{
     public void initDrawView() {
 
         cfv = new ClientFrontView(Board.this, null);
-        seekbarPaintSize.sendClient(cfv);
         flDrawbody.addView(cfv);
 
     }
