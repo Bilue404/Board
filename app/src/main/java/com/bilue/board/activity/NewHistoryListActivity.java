@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2015/8/15.
  */
-public class NewHistoryListActivity extends AppCompatActivity {
+public class NewHistoryListActivity extends BaseActivity {
 
     private ArrayList<History> items;
     private SwipeMenuListView mListView;

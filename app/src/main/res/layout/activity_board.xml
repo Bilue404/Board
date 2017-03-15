@@ -17,11 +17,17 @@
         <FrameLayout
             android:id="@+id/fl_draw_body"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#ffd1d1d1"
+            >
             <com.bilue.board.view.ClientBgView
                 android:id="@+id/cbv_bg"
                 android:layout_width="720px"
                 android:layout_height="1080px" />
+            <com.bilue.board.view.ClientFrontView
+                android:id="@+id/cfv_draw_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
             <TextView
                 android:id="@+id/tv_position"
                 android:layout_width="wrap_content"

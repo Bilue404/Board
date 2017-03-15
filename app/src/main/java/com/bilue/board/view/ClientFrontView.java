@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.bilue.board.controller.ConfigController;
 import com.bilue.board.controller.ZoomController;
 import com.bilue.board.graph.ArrowImpl;
 import com.bilue.board.graph.CirclectlImpl;
@@ -16,69 +15,54 @@ import com.bilue.board.graph.LineImpl;
 import com.bilue.board.graph.PenImpl;
 import com.bilue.board.graph.RectuImpl;
 import com.bilue.board.graph.TextImpl;
-import com.bilue.board.util.DrawAction;
 import com.bilue.board.util.Engine;
-
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class ClientFrontView extends View {
 
 
 	private float startX, startY;
 
-	private Thread sendActionThread = null;
 	private GraphIF drawPenTool = null;
-//	private SendThread st = null;
 	//判断是否抬起手了
 	private boolean isUp = true;
 	private float scale = ZoomController.getScale();
 
-	private int paintStyle = Engine.penTool;
+	private int paintStyle = Engine.PEN_TOOL;
 	private float paintSize = Engine.DEFAULT_SIZE/scale;
 	private int paintColor = Engine.DEFAULT_COLOR;
 	private OnActionChangeListener listener;
 	public ClientFrontView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
-		//Log.i("client_test", "此时的socket为" + Engine.clientSocket);
 		init();
-
 	}
 
 	public void init() {
 		drawPenTool = Engine.drawPenTool;
-
-//		st = new SendThread(Engine.clientSocket);
-//		sendActionThread = new Thread(st);
-//		sendActionThread.start();
-
-		//Log.i("client_test", "UI线程启动了");
 	}
 
 
 	public void updatePaint() {
 		switch (paintStyle) {
-			case Engine.penTool: // 铅笔
+			case Engine.PEN_TOOL: // 铅笔
 				drawPenTool = new PenImpl(paintSize, paintColor);
 				break;
 
-			case Engine.circlectTool:
+			case Engine.CIRCLECT_TOOL:
 				drawPenTool = new CirclectlImpl(paintSize, paintColor);
 				break;
-			case Engine.lineTool:
+			case Engine.LINE_TOOL:
 				drawPenTool = new LineImpl(paintSize,paintColor);
 				break;
-			case Engine.rectuTool:
+			case Engine.RECTU_TOOL:
 				drawPenTool = new RectuImpl(paintSize,paintColor);
 				break;
-			case Engine.eraserTool:
+			case Engine.ERASER_TOOL:
 				drawPenTool = new EraserImpl(paintSize);
 				break;
-			case Engine.arrowTool:
+			case Engine.ARROW_TOOL:
 				drawPenTool = new ArrowImpl(paintSize,paintColor);
 				break;
-			case Engine.textTool:
+			case Engine.TEXT_TOOL:
 				drawPenTool = new TextImpl(paintSize,paintColor,Engine.paintText);
 				break;
 			default:
@@ -109,7 +93,6 @@ public class ClientFrontView extends View {
 
 	@Override
 	public void draw(Canvas canvas) {
-		// TODO 重写draw方法
 		super.draw(canvas);
 		drawPenTool.draw(canvas);
 		this.setAlpha(1);
@@ -139,7 +122,6 @@ public class ClientFrontView extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO 动作监听
 		switch (event.getAction()) {
 
 			case MotionEvent.ACTION_DOWN:
@@ -149,7 +131,6 @@ public class ClientFrontView extends View {
 
 				drawPenTool.touchDown(startX, startY);
 
-//				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY);
 
 				if (listener != null) {
 					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY,paintSize,paintColor,Engine.paintText);
@@ -163,7 +144,6 @@ public class ClientFrontView extends View {
 				endX = event.getX();
 				endY = event.getY();
 				drawPenTool.touchMove(endX, endY);
-//				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY);
 
 				if (listener != null) {
 					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY,paintSize,paintColor,Engine.paintText);
@@ -175,8 +155,6 @@ public class ClientFrontView extends View {
 			case MotionEvent.ACTION_UP:
 
 				drawPenTool.touchUp(event.getX(), event.getY());
-//				st.SendActon(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(),
-//						event.getY());
 
 				isUp=true;
 				if (listener != null) {
@@ -191,60 +169,6 @@ public class ClientFrontView extends View {
 		}
 
 		return true;
-	}
-
-
-//	JSONArray jsonArray = new JSONArray();
-//	private void putJson(DrawAction drawAction){
-//		Gson gson = new Gson();
-//		String drawStr = gson.toJson(drawAction);
-//		try {
-//			JSONObject jsonObject = new JSONObject(drawStr);
-//			Log.e("putJson","the jsonObject is "+jsonObject);
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-
-
-	class SendThread implements Runnable {
-
-		Socket s = null;
-		private boolean isSend = false;
-
-		public SendThread(Socket s) {
-			this.s = s;
-			isSend = true;
-		}
-
-		@Override
-		public void run() {
-
-		}
-
-		public void SendActon(String drawPenTAG, int drawPenStyle , String action, float x, float y) {
-			// isSend = true;
-			try {
-
-				//Log.i("client_test", "客户端：写入动作开始");
-				DrawAction da = new DrawAction(drawPenTAG, action, x, y,
-						drawPenStyle, paintSize, paintColor,Engine.paintText);
-				ConfigController configController = ConfigController.getConfigController();
-				configController.putAction(da);
-
-				ObjectOutputStream obs = new ObjectOutputStream(
-						s.getOutputStream());
-				obs.writeObject(da);
-				obs.flush();
-				//Log.i("client_test", "客户端：写入动作结束");
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 

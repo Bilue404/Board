@@ -1,6 +1,5 @@
 package com.bilue.board.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import com.bilue.board.R;
 import com.bilue.board.adapter.WifiListAdapter;
+import com.bilue.board.constant.IntentExtraConstant;
 import com.bilue.board.util.Engine;
 import com.bilue.board.util.WifiUtil;
 
@@ -28,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class JoinRoom extends Activity {
+public class JoinRoom extends BaseActivity {
 
 	private static final int WIFI_UPDATED = 2;
 //	private TextView showWifiList;
@@ -195,7 +195,7 @@ public class JoinRoom extends Activity {
 
 		Thread td = new Thread() {
 			public void run() {
-				Engine.isClient = true;
+//				Engine.isClient = true;
 				//增加停顿 防止wifi 没开启就直接连接
 				try {
 					Thread.sleep(3000);
@@ -206,7 +206,8 @@ public class JoinRoom extends Activity {
 
 
 				Intent it = new Intent(JoinRoom.this, Board.class);
-				it.putExtra("myPath","");
+				it.putExtra(IntentExtraConstant.PATH,"");
+				it.putExtra(IntentExtraConstant.IS_CLIENT,true);
 				startActivity(it);
 
 				finish();

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreatRoom extends AppCompatActivity {
+public class CreatRoom extends BaseActivity {
 	private static final String TAG_NEED_PASSWD = "_missing_roomL";
 	private static final String TAG_NO_PASSWD = "_missing_room";
 	@BindView(R.id.et_root_name) EditText etRootName;
@@ -143,7 +142,7 @@ public class CreatRoom extends AppCompatActivity {
 				public void run() {
 
 					wifiUtil.creatAp(ssid, pwd, true);
-					Engine.isClient = false;
+//					Engine.isClient = false;
 					//Engine.SERVER_IP = wifiUtil.getIpAddress()+"";
 //					try {
 //						Thread.sleep(2000); // 停顿  为了UI 好看
@@ -179,6 +178,7 @@ public class CreatRoom extends AppCompatActivity {
 					serverboardIntent.putExtra(IntentExtraConstant.PATH,path);
 				}
 
+				serverboardIntent.putExtra(IntentExtraConstant.IS_CLIENT,false);
 
 				startActivity(serverboardIntent);
 				

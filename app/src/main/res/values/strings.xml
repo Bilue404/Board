@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">移动白板</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
     <string name="action_settings">Settings</string>
     <string name="board_pick_color">选择颜色</string>
     <string name="color_swatch_description">Color %1$d</string>
@@ -10,4 +11,15 @@
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
     <string name="title_activity_info">InfoActivity</string>
+
+    <string name="board_waiting">请稍候</string>
+    <string name="board_initing_miss_room">初始化会议室中 请不要进行操作</string>
+    <string name="board_if_quite_miss">是否退出本次会议</string>
+    <string name="board_save_and_quite">保存并退出</string>
+    <string name="board_enter_name">请输入保存会议的名称</string>
+    <string name="board_not_empty">不能为空</string>
+    <string name="board_save_success">保存成功</string>
+    <string name="board_save_faild">保存失败</string>
+    <string name="board_save_name">请输入保存的名称</string>
+    <string name="board_quite">直接退出</string>
 </resources>

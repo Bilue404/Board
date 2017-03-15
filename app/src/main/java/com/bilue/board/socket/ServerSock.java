@@ -117,7 +117,6 @@ public class ServerSock {
 			serverSendThread.start();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			Log.i("test", "服务器开启失败");
 			e.printStackTrace();
 		}
@@ -317,26 +316,26 @@ public class ServerSock {
 			}
 			if (!da.getdrawPenTAG().equals(clientDrawPen.getTAG())) {
 				switch (da.getDrawPenStyle()) {
-					case 1:
+					case Engine.PEN_TOOL:
 						clientDrawPen = new PenImpl(da.getPaintSize(), da.getPaintColor());
 						break;
-					case Engine.circlectTool:
+					case Engine.CIRCLECT_TOOL:
 						clientDrawPen = new CirclectlImpl(da.getPaintSize(), da.getPaintColor());
 						break;
-					case Engine.lineTool:
+					case Engine.LINE_TOOL:
 						clientDrawPen = new LineImpl(da.getPaintSize(), da.getPaintColor());
 						break;
-					case Engine.rectuTool:
+					case Engine.RECTU_TOOL:
 						clientDrawPen = new RectuImpl(da.getPaintSize(), da.getPaintColor());
 						break;
-					case Engine.eraserTool:
+					case Engine.ERASER_TOOL:
 
 						clientDrawPen = new EraserImpl(da.getPaintSize());
 						break;
-					case Engine.arrowTool:
+					case Engine.ARROW_TOOL:
 						clientDrawPen = new ArrowImpl(da.getPaintSize(),da.getPaintColor());
 						break;
-					case Engine.textTool:
+					case Engine.TEXT_TOOL:
 						clientDrawPen = new TextImpl(da.getPaintSize(),da.getPaintColor(),da.getPaintText());
 						break;
 					default:
@@ -377,8 +376,12 @@ public class ServerSock {
 			else{
 				if (da.getAction().equals("ACTION_DOWN")) {
 					clientDrawPen.touchDown(da.getX()/scale, da.getY()/scale);
+//					 Log.e("server_test", "--服务端：手指按下");
+
 				} else if (da.getAction().equals("ACTION_MOVE")) {
-					clientDrawPen.touchMove(da.getX()/scale, da.getY()/scale);
+//					clientDrawPen.touchMove(da.getX()/scale, da.getY()/scale);
+//					Log.e("server_test", "--服务端：手指移动");
+
 				} else {
 					clientDrawPen.touchUp(da.getX()/scale, da.getY()/scale);
 					clientDrawPen.draw(canvas);
@@ -386,6 +389,8 @@ public class ServerSock {
 					graphStack.refresh(baseBitmap, Board.position);
 					//每画一笔 就要重置画笔 这样就会有层次感
 					clientDrawPen = null;
+//					Log.e("server_test", "--服务端：手指抬起");
+
 					//myStack.push(baseBitmap);
 				}
 			}

@@ -6,4 +6,5 @@ package com.bilue.board.constant;
 
 public class IntentExtraConstant {
     public static final String PATH = "myPath";
+    public static final String IS_CLIENT = "isClient";
 }

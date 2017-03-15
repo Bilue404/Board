@@ -3,7 +3,6 @@ package com.bilue.board.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,7 +18,6 @@ public class ClientBgView extends View {
 	public ClientBgView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		paint = new Paint();
-		setBackgroundColor(Color.GRAY);
 	}
 
 	@Override

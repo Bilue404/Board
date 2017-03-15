@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2015/8/15.
  */
-public class HistoryListActivity extends AppCompatActivity {
+public class HistoryListActivity extends BaseActivity {
 
     private ArrayList<History> items;
     private SwipeMenuListView mListView;
