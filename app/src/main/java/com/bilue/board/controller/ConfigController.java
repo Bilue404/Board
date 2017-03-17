@@ -3,7 +3,7 @@ package com.bilue.board.controller;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bilue.board.util.DrawAction;
+import com.bilue.board.bean.DrawAction;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

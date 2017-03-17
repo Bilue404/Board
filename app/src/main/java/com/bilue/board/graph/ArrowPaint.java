@@ -7,7 +7,7 @@ import android.graphics.Path;
 /**
  * Created by Administrator on 2015/8/12.
  */
-public class ArrowImpl extends GraphIF{
+public class ArrowPaint extends BasePaint {
     private String TAG = null;
     private float startx = 0;
     private float starty = 0;
@@ -25,7 +25,7 @@ public class ArrowImpl extends GraphIF{
     private int y4 = 50;
     //private Path triangle = new Path();
 
-    public ArrowImpl(float penSize, int penColor) {
+    public ArrowPaint(float penSize, int penColor) {
         super();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);

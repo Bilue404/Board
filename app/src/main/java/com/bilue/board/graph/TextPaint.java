@@ -6,7 +6,7 @@ import android.graphics.Paint;
 /**
  * Created by Administrator on 2015/8/12.
  */
-public class TextImpl extends GraphIF{
+public class TextPaint extends BasePaint {
     private String TAG = null;
     private float startx = 0;
     private float starty = 0;
@@ -17,7 +17,7 @@ public class TextImpl extends GraphIF{
 
 
 
-    public TextImpl(float penSize, int penColor,String text) {
+    public TextPaint(float penSize, int penColor, String text) {
         super();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);

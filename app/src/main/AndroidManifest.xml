@@ -34,8 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CreatRoom" />
-        <activity android:name=".activity.Board" >
+        <activity android:name=".activity.CreatRoomActivity" />
+        <activity android:name=".activity.BoardActivity" >
         </activity>
         <activity android:name=".activity.JoinRoom" />
         <activity android:name=".activity.HistoryListActivity" />

@@ -3,7 +3,7 @@ package com.bilue.board.graph;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class CirclectlImpl extends GraphIF {
+public class CirclectlPaint extends BasePaint {
 	private String TAG = null;
     private boolean m_hasDrawn = false;
     private float startx = 0;  
@@ -12,7 +12,7 @@ public class CirclectlImpl extends GraphIF {
     private float endy = 0; 
     private float radius=0;   
     private int drawPenStyle = 2;
-    public CirclectlImpl(float penSize, int penColor)
+    public CirclectlPaint(float penSize, int penColor)
     {
 		super();
     	mPaint.setAntiAlias(true);

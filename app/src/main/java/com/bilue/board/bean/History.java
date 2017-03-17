@@ -1,4 +1,4 @@
-package com.bilue.board.util;
+package com.bilue.board.bean;
 
 /**
  * Created by Administrator on 2015/8/15.

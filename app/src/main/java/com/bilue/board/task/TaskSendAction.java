@@ -1,6 +1,6 @@
 package com.bilue.board.task;
 
-import com.bilue.board.util.DrawAction;
+import com.bilue.board.bean.DrawAction;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -10,9 +10,9 @@ import java.net.Socket;
  * Created by bilue on 17/3/14.
  */
 
-public class SendActionTask implements Runnable {
+public class TaskSendAction implements Runnable {
     private Socket socket;
-    public SendActionTask(Socket socket){
+    public TaskSendAction(Socket socket){
         this.socket = socket;
     }
     @Override

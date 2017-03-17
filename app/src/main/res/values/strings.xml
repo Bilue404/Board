@@ -22,4 +22,14 @@
     <string name="board_save_faild">保存失败</string>
     <string name="board_save_name">请输入保存的名称</string>
     <string name="board_quite">直接退出</string>
+    <string name="board_text_enter">请输入文字</string>
+    <string name="board_no_new_permission">客户端没有新建页权限</string>
+    <string name="board_no_page_turn_permission">客户端没有翻页权限</string>
+    <string name="board_no_redo_permission">客户端没有重做权限</string>
+    <string name="board_no_undo_permission">客户端没有撤销权限</string>
+    <string name="board_no_del_permission">客户端没有删除权限</string>
+    <string name="board_no_clean_permission">客户端没有清除权限</string>
+
+
+
 </resources>

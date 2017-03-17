@@ -49,7 +49,7 @@
                 android:background="@drawable/board_color_picker" />
         </LinearLayout>
 
-        <com.bilue.board.ui.CustomSeekBar
+        <com.bilue.board.view.CustomSeekBar
             android:id="@+id/board_myseek"
             android:layout_width="0dp"
             android:layout_height="match_parent"

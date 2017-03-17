@@ -6,23 +6,18 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.bilue.board.constant.Engine;
 import com.bilue.board.controller.ZoomController;
-import com.bilue.board.graph.ArrowImpl;
-import com.bilue.board.graph.CirclectlImpl;
-import com.bilue.board.graph.EraserImpl;
-import com.bilue.board.graph.GraphIF;
-import com.bilue.board.graph.LineImpl;
-import com.bilue.board.graph.PenImpl;
-import com.bilue.board.graph.RectuImpl;
-import com.bilue.board.graph.TextImpl;
-import com.bilue.board.util.Engine;
+import com.bilue.board.graph.BasePaint;
+import com.bilue.board.graph.PaintFactory;
+import com.bilue.board.graph.PenPaint;
 
 public class ClientFrontView extends View {
 
 
 	private float startX, startY;
 
-	private GraphIF drawPenTool = null;
+	private BasePaint drawPenTool = null;
 	//判断是否抬起手了
 	private boolean isUp = true;
 	private float scale = ZoomController.getScale();
@@ -30,44 +25,24 @@ public class ClientFrontView extends View {
 	private int paintStyle = Engine.PEN_TOOL;
 	private float paintSize = Engine.DEFAULT_SIZE/scale;
 	private int paintColor = Engine.DEFAULT_COLOR;
+	private String paintText = "";
 	private OnActionChangeListener listener;
+	private PaintFactory paintFactory;
 	public ClientFrontView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
 	public void init() {
-		drawPenTool = Engine.drawPenTool;
+		drawPenTool = new PenPaint(Engine.DEFAULT_SIZE, Engine.DEFAULT_COLOR);
 	}
 
 
 	public void updatePaint() {
-		switch (paintStyle) {
-			case Engine.PEN_TOOL: // 铅笔
-				drawPenTool = new PenImpl(paintSize, paintColor);
-				break;
-
-			case Engine.CIRCLECT_TOOL:
-				drawPenTool = new CirclectlImpl(paintSize, paintColor);
-				break;
-			case Engine.LINE_TOOL:
-				drawPenTool = new LineImpl(paintSize,paintColor);
-				break;
-			case Engine.RECTU_TOOL:
-				drawPenTool = new RectuImpl(paintSize,paintColor);
-				break;
-			case Engine.ERASER_TOOL:
-				drawPenTool = new EraserImpl(paintSize);
-				break;
-			case Engine.ARROW_TOOL:
-				drawPenTool = new ArrowImpl(paintSize,paintColor);
-				break;
-			case Engine.TEXT_TOOL:
-				drawPenTool = new TextImpl(paintSize,paintColor,Engine.paintText);
-				break;
-			default:
-				break;
+		if (paintFactory == null) {
+			paintFactory = new PaintFactory();
 		}
+		drawPenTool = paintFactory.creatPaint(paintStyle,paintSize,paintColor,paintText);
 	}
 
 	public void setPaintStyle(int paintStyle){
@@ -89,6 +64,9 @@ public class ClientFrontView extends View {
 		this.listener = listener;
 	}
 
+	public void setPaintText(String text){
+		 this.paintText = text;
+	}
 
 
 	@Override
@@ -133,7 +111,7 @@ public class ClientFrontView extends View {
 
 
 				if (listener != null) {
-					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY,paintSize,paintColor,Engine.paintText);
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_DOWN", startX, startY,paintSize,paintColor,paintText);
 				}
 				invalidate();
 				break;
@@ -146,7 +124,7 @@ public class ClientFrontView extends View {
 				drawPenTool.touchMove(endX, endY);
 
 				if (listener != null) {
-					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY,paintSize,paintColor,Engine.paintText);
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_MOVE", endX, endY,paintSize,paintColor,paintText);
 				}
 
 				invalidate();
@@ -158,7 +136,7 @@ public class ClientFrontView extends View {
 
 				isUp=true;
 				if (listener != null) {
-					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(), event.getY(),paintSize,paintColor,Engine.paintText);
+					listener.onActionChange(drawPenTool.getTAG(), drawPenTool.getDrawPenStyle(), "ACTION_UP", event.getX(), event.getY(),paintSize,paintColor,paintText);
 				}
 				invalidate();
 

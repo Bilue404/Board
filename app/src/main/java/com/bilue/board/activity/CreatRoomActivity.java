@@ -17,14 +17,14 @@ import android.widget.Toast;
 
 import com.bilue.board.R;
 import com.bilue.board.constant.IntentExtraConstant;
-import com.bilue.board.util.Engine;
+import com.bilue.board.constant.Engine;
 import com.bilue.board.util.WifiUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreatRoom extends BaseActivity {
+public class CreatRoomActivity extends BaseActivity {
 	private static final String TAG_NEED_PASSWD = "_missing_roomL";
 	private static final String TAG_NO_PASSWD = "_missing_room";
 	@BindView(R.id.et_root_name) EditText etRootName;
@@ -94,7 +94,7 @@ public class CreatRoom extends BaseActivity {
 				if (!TextUtils.isEmpty(passwd)) {
 					wifiName = name + TAG_NEED_PASSWD;
 				} else {
-					Toast.makeText(CreatRoom.this, "请设置房间密码 或选择不加密", Toast.LENGTH_SHORT).show();
+					Toast.makeText(CreatRoomActivity.this, "请设置房间密码 或选择不加密", Toast.LENGTH_SHORT).show();
 				}
 			}
 			else{
@@ -104,7 +104,7 @@ public class CreatRoom extends BaseActivity {
 			creatwifi(wifiName, passwd);
 
 		} else {
-			Toast.makeText(CreatRoom.this, "会议名字为空", Toast.LENGTH_SHORT)
+			Toast.makeText(CreatRoomActivity.this, "会议名字为空", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
@@ -134,7 +134,7 @@ public class CreatRoom extends BaseActivity {
 		final Myhandler myhandler = new Myhandler();
 		final WifiUtil wifiUtil = new WifiUtil(this);
 		if (checkState(wifiUtil)) {
-			final ProgressDialog dialog = new ProgressDialog(CreatRoom.this);
+			final ProgressDialog dialog = new ProgressDialog(CreatRoomActivity.this);
 			dialog.setTitle("创建会议");
 			dialog.setMessage("正在创建会议 请稍候");
 			dialog.show();
@@ -169,7 +169,7 @@ public class CreatRoom extends BaseActivity {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if(msg.what==2){
-				Intent serverboardIntent = new Intent(CreatRoom.this, Board.class) ;
+				Intent serverboardIntent = new Intent(CreatRoomActivity.this, BoardActivity.class) ;
 				if(path.equals("")||path==null){
 					serverboardIntent.putExtra(IntentExtraConstant.PATH,"");
 				}

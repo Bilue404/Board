@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.bilue.board.R;
 import com.bilue.board.adapter.WifiListAdapter;
 import com.bilue.board.constant.IntentExtraConstant;
-import com.bilue.board.util.Engine;
+import com.bilue.board.constant.Engine;
 import com.bilue.board.util.WifiUtil;
 
 import java.util.List;
@@ -31,13 +31,11 @@ import butterknife.ButterKnife;
 public class JoinRoom extends BaseActivity {
 
 	private static final int WIFI_UPDATED = 2;
-//	private TextView showWifiList;
 	@BindView(R.id.btn_back) Button back;
 	@BindView(R.id.lv_wifilist) ListView wifiListView;
 	private List<ScanResult> wifiList;
 	private WifiUtil wa;
 	private MyHandler handler;
-	private StringBuffer sb;
 	private SearchWifiThread searchWifiThread;
 	private WifiListAdapter myAdapter;
 
@@ -46,8 +44,6 @@ public class JoinRoom extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_joinroom);
-		//透明状态栏
-		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		ButterKnife.bind(this);
 		wa = new WifiUtil(this);
 		handler = new MyHandler();
@@ -205,7 +201,7 @@ public class JoinRoom extends BaseActivity {
 				}
 
 
-				Intent it = new Intent(JoinRoom.this, Board.class);
+				Intent it = new Intent(JoinRoom.this, BoardActivity.class);
 				it.putExtra(IntentExtraConstant.PATH,"");
 				it.putExtra(IntentExtraConstant.IS_CLIENT,true);
 				startActivity(it);

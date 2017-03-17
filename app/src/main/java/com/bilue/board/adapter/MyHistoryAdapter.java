@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bilue.board.R;
-import com.bilue.board.util.History;
+import com.bilue.board.bean.History;
 
 import java.util.ArrayList;
 

@@ -2,18 +2,18 @@ package com.bilue.board.graph;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 
-public class LineImpl extends GraphIF {
-
+public class RectuPaint extends BasePaint {
 	private String TAG = null;
+
 	private float startx = 0;
 	private float starty = 0;
 	private float endx = 0;
 	private float endy = 0;
-	private int drawPenStyle = 3;
-	private Path triangle = new Path(); 
-	public LineImpl(float penSize, int penColor) {
+
+	private int drawPenStyle = 4;
+
+	public RectuPaint(float penSize, int penColor) {
 		super();
 		mPaint.setAntiAlias(true);
 		mPaint.setDither(true);
@@ -21,24 +21,17 @@ public class LineImpl extends GraphIF {
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeJoin(Paint.Join.ROUND);
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
-		mPaint.setStrokeWidth(penSize);
-		this.TAG = 3 + penSize + penColor + "";
-		
-		
-		  
-	        
+		mPaint.setStrokeWidth(penSize);//
+		this.TAG = 4 + penSize + penColor + "";
 	}
 
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		if (null != canvas) {
-			canvas.drawLine(startx, starty, endx, endy, mPaint);
-			
+			canvas.drawRect(startx, starty, endx, endy, mPaint);
 		}
 	}
 
 	public void touchDown(float x, float y) {
-		// TODO Auto-generated method stub
 		startx = x;
 		starty = y;
 		endx = x;
@@ -46,7 +39,6 @@ public class LineImpl extends GraphIF {
 	}
 
 	public void touchMove(float x, float y) {
-		// TODO Auto-generated method stub
 		endx = x;
 		endy = y;
 	}
@@ -58,13 +50,12 @@ public class LineImpl extends GraphIF {
 
 	@Override
 	public String getTAG() {
-		// TODO Auto-generated method stub
 		return TAG;
 	}
 
 	@Override
 	public int getDrawPenStyle() {
-		// TODO Auto-generated method stub
 		return drawPenStyle;
 	}
+
 }

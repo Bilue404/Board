@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
@@ -19,7 +18,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.bilue.board.R;
 import com.bilue.board.adapter.MyHistoryAdapter;
-import com.bilue.board.util.History;
+import com.bilue.board.bean.History;
 
 import java.io.File;
 import java.util.ArrayList;

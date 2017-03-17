@@ -1,4 +1,4 @@
-package com.bilue.board.util;
+package com.bilue.board.bean;
 
 import java.io.Serializable;
 

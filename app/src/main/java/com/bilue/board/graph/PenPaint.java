@@ -1,27 +1,25 @@
 package com.bilue.board.graph;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+public class PenPaint extends BasePaint {
 
-public class EraserImpl extends GraphIF {
-	
 	private String TAG = null;
 	private Path mpath = new Path();
 	private float startX =0;
 	private float startY =0;
 	
-	private int drawPenStyle = 5;
+	private int drawPenStyle = 1;
 	
 	
-	public EraserImpl(float penSize) {
+	public PenPaint(float penSize, int penColor) {
 		super();
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setStrokeWidth(penSize);
-		mPaint.setColor(Color.WHITE);
-		this.TAG = 5+penSize+Color.WHITE+"";
+		mPaint.setColor(penColor);
+		this.TAG = 1+penSize+penColor+"";
 	}
 	
 	@Override
@@ -62,4 +60,5 @@ public class EraserImpl extends GraphIF {
 		return drawPenStyle;
 	}
 
+	
 }

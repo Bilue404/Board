@@ -1,4 +1,4 @@
-package com.bilue.board.socket;
+package com.bilue.board.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,20 +8,14 @@ import android.graphics.Paint;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.bilue.board.activity.Board;
-import com.bilue.board.controller.ZoomController;
-import com.bilue.board.graph.ArrowImpl;
-import com.bilue.board.graph.CirclectlImpl;
-import com.bilue.board.graph.EraserImpl;
-import com.bilue.board.graph.GraphIF;
-import com.bilue.board.graph.LineImpl;
-import com.bilue.board.graph.PenImpl;
-import com.bilue.board.graph.RectuImpl;
-import com.bilue.board.graph.TextImpl;
+import com.bilue.board.activity.BoardActivity;
+import com.bilue.board.bean.DrawAction;
+import com.bilue.board.constant.Engine;
+import com.bilue.board.graph.BasePaint;
+import com.bilue.board.graph.PaintFactory;
+import com.bilue.board.graph.PenPaint;
 import com.bilue.board.util.BitmapUtil;
 import com.bilue.board.util.ControlStack;
-import com.bilue.board.util.DrawAction;
-import com.bilue.board.util.Engine;
 import com.bilue.board.util.GraphStack;
 
 import java.io.DataOutputStream;
@@ -33,7 +27,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerSock {
+public class ServerSockController {
 
 	private Canvas canvas = null;
 	private Bitmap baseBitmap = null;
@@ -50,7 +44,8 @@ public class ServerSock {
 	private float scale = ZoomController.getScale();
 	// private GraphIF drawPenTool = new PenImpl(5,Color.BLACK);
 
-	public ServerSock() {
+	private PaintFactory paintFactory;
+	public ServerSockController() {
 		userList = new ArrayList<Socket>();
 		initPaint();
 
@@ -61,7 +56,7 @@ public class ServerSock {
 
 	}
 
-	public ServerSock(String path) {
+	public ServerSockController(String path) {
 
 
 		String myDir = path + "/";
@@ -170,7 +165,7 @@ public class ServerSock {
 		bitmap = myStack.undo();
 		if(bitmap!=null){
 			canvas.drawBitmap(bitmap,0,0,paint);
-			refresh(Board.position);
+			refresh(BoardActivity.position);
 		}
 	}
 
@@ -179,7 +174,7 @@ public class ServerSock {
 		bitmap = myStack.redo();
 		if(bitmap!=null){
 			canvas.drawBitmap(bitmap,0,0,paint);
-			refresh(Board.position);
+			refresh(BoardActivity.position);
 		}
 	}
 
@@ -251,8 +246,6 @@ public class ServerSock {
 					Thread clientTd = new Thread(new ClientThread(s));
 					clientTd.start();
 
-					// sendInitview(s);
-
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -269,7 +262,7 @@ public class ServerSock {
 
 		Socket s;
 		private boolean isconnect = false;
-		private GraphIF clientDrawPen = null;
+		private BasePaint clientDrawPen = null;
 
 		public ClientThread(Socket s) {
 			this.s = s;
@@ -311,36 +304,15 @@ public class ServerSock {
 			
 			
 			if (clientDrawPen == null) {
-				clientDrawPen = new PenImpl(5, Color.BLACK);
+				clientDrawPen = new PenPaint(5, Color.BLACK);
 
 			}
-			if (!da.getdrawPenTAG().equals(clientDrawPen.getTAG())) {
-				switch (da.getDrawPenStyle()) {
-					case Engine.PEN_TOOL:
-						clientDrawPen = new PenImpl(da.getPaintSize(), da.getPaintColor());
-						break;
-					case Engine.CIRCLECT_TOOL:
-						clientDrawPen = new CirclectlImpl(da.getPaintSize(), da.getPaintColor());
-						break;
-					case Engine.LINE_TOOL:
-						clientDrawPen = new LineImpl(da.getPaintSize(), da.getPaintColor());
-						break;
-					case Engine.RECTU_TOOL:
-						clientDrawPen = new RectuImpl(da.getPaintSize(), da.getPaintColor());
-						break;
-					case Engine.ERASER_TOOL:
+			if (paintFactory == null){
+				paintFactory = new PaintFactory();
+			}
 
-						clientDrawPen = new EraserImpl(da.getPaintSize());
-						break;
-					case Engine.ARROW_TOOL:
-						clientDrawPen = new ArrowImpl(da.getPaintSize(),da.getPaintColor());
-						break;
-					case Engine.TEXT_TOOL:
-						clientDrawPen = new TextImpl(da.getPaintSize(),da.getPaintColor(),da.getPaintText());
-						break;
-					default:
-						break;
-				}
+			if (!da.getdrawPenTAG().equals(clientDrawPen.getTAG())) {
+				clientDrawPen = paintFactory.creatPaint(da.getDrawPenStyle(),da.getPaintSize(),da.getPaintColor(),da.getPaintText());
 			}
 
 			drawBitMap(da);
@@ -366,7 +338,7 @@ public class ServerSock {
 					//每画一笔 就要重置画笔 这样就会有层次感
 					clientDrawPen = null;
 					myStack.push(baseBitmap);
-					graphStack.refresh(baseBitmap, Board.position);
+					graphStack.refresh(baseBitmap, BoardActivity.position);
 					return;
 				}
 				
@@ -386,7 +358,7 @@ public class ServerSock {
 					clientDrawPen.touchUp(da.getX()/scale, da.getY()/scale);
 					clientDrawPen.draw(canvas);
 					myStack.push(baseBitmap);
-					graphStack.refresh(baseBitmap, Board.position);
+					graphStack.refresh(baseBitmap, BoardActivity.position);
 					//每画一笔 就要重置画笔 这样就会有层次感
 					clientDrawPen = null;
 //					Log.e("server_test", "--服务端：手指抬起");
@@ -433,7 +405,7 @@ public class ServerSock {
 				if (userList.size() != 0) {
 					// Log.i("server_test", "--服务端：开始发送所有数据");
 					for (int i = 0; i < userList.size(); i++) {
-						Socket st = (Socket) userList.get(i);
+						Socket st = userList.get(i);
 						sendAll(st);
 					}
 				}

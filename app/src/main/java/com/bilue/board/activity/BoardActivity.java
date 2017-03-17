@@ -26,13 +26,13 @@ import android.widget.Toast;
 import com.bilue.board.R;
 import com.bilue.board.constant.IntentExtraConstant;
 import com.bilue.board.controller.ZoomController;
-import com.bilue.board.socket.ServerSock;
-import com.bilue.board.task.ReceiveTask;
-import com.bilue.board.task.SendActionTask;
-import com.bilue.board.ui.CustomSeekBar;
+import com.bilue.board.controller.ServerSockController;
+import com.bilue.board.task.TaskReceive;
+import com.bilue.board.task.TaskSendAction;
+import com.bilue.board.view.CustomSeekBar;
 import com.bilue.board.util.BitmapUtil;
-import com.bilue.board.util.DrawAction;
-import com.bilue.board.util.Engine;
+import com.bilue.board.bean.DrawAction;
+import com.bilue.board.constant.Engine;
 import com.bilue.board.view.ClientBgView;
 import com.bilue.board.view.ClientFrontView;
 import com.fourmob.colorpicker.ColorPickerDialog;
@@ -48,7 +48,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Board extends BaseActivity{
+public class BoardActivity extends BaseActivity{
 
     @BindView(R.id.btn_color_picker) Button btnColorPicker;
     @BindView(R.id.seekbar_paint_size) CustomSeekBar seekbarPaintSize;
@@ -63,13 +63,13 @@ public class Board extends BaseActivity{
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.tv_position) TextView tvPosition;
     @BindView(R.id.cfv_draw_view) ClientFrontView cfvDrawView;
-    private ServerSock ss;//socket通讯 redo undo clean 等操作
+    private ServerSockController ss;//socket通讯 redo undo clean 等操作
     private String myPath;
     public static int position=1;
 
     private GradientDrawable myGrad;// 顶端小圆点
     private ColorPickerDialog colorPickerDialog;
-    private SendActionTask sendActionTask;
+    private TaskSendAction taskSendAction;
     private boolean isClient = true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class Board extends BaseActivity{
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //初始化选择状态
         reSetIconState(R.id.iv_menu_linepath);
-        //将渲染view 根据比例缩放
+        //将渲染view 根据比例缩放 用于设配
         Animation animation = new ScaleAnimation(1, ZoomController.getScale(),1,ZoomController.getScale());
         animation.setFillBefore(false);
         animation.setFillAfter(true);
@@ -124,7 +124,6 @@ public class Board extends BaseActivity{
 
     @OnClick(R.id.iv_menu_linepath)
     public void linePath(){
-        Engine.DRAW_PEN_STYLE = Engine.PEN_TOOL;
         setPaint(Engine.PEN_TOOL);
         reSetIconState(R.id.iv_menu_linepath);
 
@@ -132,7 +131,6 @@ public class Board extends BaseActivity{
 
     @OnClick(R.id.iv_menu_line)
     public void Line(){
-        Engine.DRAW_PEN_STYLE = Engine.LINE_TOOL;
         setPaint(Engine.LINE_TOOL);
         reSetIconState(R.id.iv_menu_line);
 
@@ -140,7 +138,6 @@ public class Board extends BaseActivity{
 
     @OnClick(R.id.iv_menu_arrow)
     public void arrow(){
-        Engine.DRAW_PEN_STYLE = Engine.ARROW_TOOL;
         setPaint(Engine.ARROW_TOOL);
 
         reSetIconState(R.id.iv_menu_arrow);
@@ -149,7 +146,7 @@ public class Board extends BaseActivity{
 
     @OnClick(R.id.iv_menu_text)
     public void text(){
-        final EditText textip = new EditText(Board.this);
+        final EditText textip = new EditText(BoardActivity.this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("请输入文字").setIcon(android.R.drawable.ic_dialog_info).setView(textip)
                 .setNegativeButton(R.string.cancel, null);
@@ -158,11 +155,11 @@ public class Board extends BaseActivity{
             public void onClick(DialogInterface dialog, int which) {
                 String textString = textip.getText().toString().trim();
                 if (textString.equals("")) {
-                    Toast.makeText(Board.this, R.string.board_not_empty, Toast.LENGTH_LONG).show();
+                    Toast.makeText(BoardActivity.this, R.string.board_not_empty, Toast.LENGTH_LONG).show();
 
                 } else {
-                    Engine.DRAW_PEN_STYLE = Engine.TEXT_TOOL;
                     setPaint(Engine.TEXT_TOOL);
+                    cfvDrawView.setPaintText(textString);
                     reSetIconState(R.id.iv_menu_text);
                 }
 
@@ -173,15 +170,11 @@ public class Board extends BaseActivity{
 
     @OnClick(R.id.iv_menu_square)
     public void square(){
-        Engine.DRAW_PEN_STYLE = Engine.RECTU_TOOL;
         setPaint(Engine.RECTU_TOOL);
-
-
         reSetIconState(R.id.iv_menu_square);
     }
     @OnClick(R.id.iv_menu_circular)
     public void circular(){
-        Engine.DRAW_PEN_STYLE = Engine.CIRCLECT_TOOL;
         setPaint(Engine.CIRCLECT_TOOL);
         reSetIconState(R.id.iv_menu_circular);
     }
@@ -190,7 +183,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_undo)
     public void undo(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有撤销权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_undo_permission,Toast.LENGTH_SHORT).show();
         }
         else{
             ss.undo();
@@ -202,7 +195,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_redo)
     public void redo(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有重做权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_redo_permission,Toast.LENGTH_SHORT).show();
         }
         else{
             ss.redo();
@@ -214,7 +207,6 @@ public class Board extends BaseActivity{
 
     @OnClick(R.id.iv_menu_eraser)
     public void eraser(){
-        Engine.DRAW_PEN_STYLE = Engine.ERASER_TOOL;
         setPaint(Engine.ERASER_TOOL);
         reSetIconState(R.id.iv_menu_eraser);
 
@@ -223,7 +215,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_clean)
     public void clean(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有清空权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_clean_permission,Toast.LENGTH_SHORT).show();
         }
         else{
             ss.cleanBitmap();
@@ -234,7 +226,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_last)
     public void menuLast(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有切换页权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_page_turn_permission,Toast.LENGTH_SHORT).show();
         }
         else {
             last();
@@ -247,7 +239,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_next)
     public void menuNext(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有切换页权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_page_turn_permission,Toast.LENGTH_SHORT).show();
         }
         else {
             next();
@@ -259,7 +251,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_new)
     public void menuNew(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有新建页权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_new_permission,Toast.LENGTH_SHORT).show();
         }
         else{
             newBit();
@@ -272,7 +264,7 @@ public class Board extends BaseActivity{
     @OnClick(R.id.iv_menu_delete)
     public void menuDelete(){
         if(isClient){
-            Toast.makeText(Board.this,"客户端没有删除页权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BoardActivity.this,R.string.board_no_del_permission,Toast.LENGTH_SHORT).show();
         }
         else {
             delBit();
@@ -347,9 +339,9 @@ public class Board extends BaseActivity{
         cfvDrawView.setOnActionChangeListener(new ClientFrontView.OnActionChangeListener() {
             @Override
             public void onActionChange(String drawPenTAG, int drawPenStyle , String action, float x, float y, float paintSize, int paintColor,String paintText){
-                DrawAction da = new DrawAction(drawPenTAG, action, x, y, drawPenStyle, paintSize, paintColor,Engine.paintText);
-                if (da!=null && sendActionTask!=null){
-                    sendActionTask.sendAction(da);
+                DrawAction da = new DrawAction(drawPenTAG, action, x, y, drawPenStyle, paintSize, paintColor,paintText);
+                if (da!=null && taskSendAction !=null){
+                    taskSendAction.sendAction(da);
                 }
             }
         });
@@ -369,10 +361,10 @@ public class Board extends BaseActivity{
                     if (!isClient) {
                         //建立服务端
                         if(myPath==null||myPath.equals("")){
-                            ss = new ServerSock();
+                            ss = new ServerSockController();
                         }
                         else {
-                            ss = new ServerSock(myPath);
+                            ss = new ServerSockController(myPath);
                         }
 
 
@@ -409,7 +401,7 @@ public class Board extends BaseActivity{
     private void startReceive(Socket socket){
         if (socket != null) {
             ReceiveHandler handler = new ReceiveHandler();
-            Thread td = new Thread(new ReceiveTask(socket,handler));
+            Thread td = new Thread(new TaskReceive(socket,handler));
             td.start();
         }
 
@@ -420,8 +412,8 @@ public class Board extends BaseActivity{
 
     private void startSendActionServer(Socket socket){
         if (socket!=null){
-            sendActionTask = new SendActionTask(socket);
-            Thread sendActionThread = new Thread(sendActionTask);
+            taskSendAction = new TaskSendAction(socket);
+            Thread sendActionThread = new Thread(taskSendAction);
             sendActionThread.start();
         }
 
@@ -543,7 +535,7 @@ public class Board extends BaseActivity{
 
         if(!isClient){
 
-            final EditText myInput = new EditText(Board.this);
+            final EditText myInput = new EditText(BoardActivity.this);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.board_enter_name).setIcon(android.R.drawable.ic_dialog_info).setView(myInput)
                     .setNegativeButton(R.string.cancel, null);
@@ -556,7 +548,7 @@ public class Board extends BaseActivity{
 
                     String fileName = myInput.getText().toString().trim();
                     if (fileName.equals("")) {
-                        Toast.makeText(Board.this, R.string.board_not_empty, Toast.LENGTH_LONG).show();
+                        Toast.makeText(BoardActivity.this, R.string.board_not_empty, Toast.LENGTH_LONG).show();
 
                     } else {
 
@@ -572,9 +564,9 @@ public class Board extends BaseActivity{
                         }
 
                         if (BitmapUtil.saveBitmaps2file(ss.getBitmaps(),fileName)) {
-                            Toast.makeText(Board.this, R.string.board_save_success, Toast.LENGTH_LONG).show();
+                            Toast.makeText(BoardActivity.this, R.string.board_save_success, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(Board.this, R.string.board_save_faild, Toast.LENGTH_LONG).show();
+                            Toast.makeText(BoardActivity.this, R.string.board_save_faild, Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -587,7 +579,7 @@ public class Board extends BaseActivity{
         }
 
         else{
-            final EditText myInput = new EditText(Board.this);
+            final EditText myInput = new EditText(BoardActivity.this);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.board_enter_name).setIcon(android.R.drawable.ic_dialog_info).setView(myInput)
                     .setNegativeButton(R.string.cancel, null);
@@ -596,14 +588,14 @@ public class Board extends BaseActivity{
                 public void onClick(DialogInterface dialog, int which) {
                     String fileName = myInput.getText().toString().trim();
                     if(fileName.equals("")){
-                        Toast.makeText(Board.this, R.string.board_not_empty, Toast.LENGTH_LONG).show();
+                        Toast.makeText(BoardActivity.this, R.string.board_not_empty, Toast.LENGTH_LONG).show();
 
                     }
                     else{
                         if (cbv_Bg.save(fileName)) {
-                            Toast.makeText(Board.this, R.string.board_save_success, Toast.LENGTH_LONG).show();
+                            Toast.makeText(BoardActivity.this, R.string.board_save_success, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(Board.this, R.string.board_save_faild, Toast.LENGTH_LONG).show();
+                            Toast.makeText(BoardActivity.this, R.string.board_save_faild, Toast.LENGTH_LONG).show();
                         }
                     }
 

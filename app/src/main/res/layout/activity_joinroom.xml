@@ -19,7 +19,7 @@
         android:gravity="center_horizontal"
 
         />
-    <com.bilue.board.ui.MetaballView
+    <com.bilue.board.view.MetaballView
         android:layout_below="@+id/toolbar_main"
         android:id="@+id/metaball"
         android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package com.bilue.board.ui;
+package com.bilue.board.view;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -24,7 +24,7 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 
 import com.bilue.board.R;
-import com.bilue.board.util.Engine;
+import com.bilue.board.constant.Engine;
 
 /**
  * @description CustomSeekBar

@@ -1,4 +1,4 @@
-package com.bilue.board.ui;
+package com.bilue.board.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

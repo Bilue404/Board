@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.bilue.board.R;
 import com.bilue.board.constant.IntentExtraConstant;
-import com.bilue.board.ui.SvgView;
+import com.bilue.board.view.SvgView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity{
 
     @OnClick(R.id.btn_creat_room)
     public void creatRoom(){
-        Intent creatIntent = new Intent(MainActivity.this, CreatRoom.class);
+        Intent creatIntent = new Intent(MainActivity.this, CreatRoomActivity.class);
         creatIntent.putExtra(IntentExtraConstant.PATH,"");
         startActivity(creatIntent);
     }

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Message;
 import android.util.Log;
 
-import com.bilue.board.activity.Board;
+import com.bilue.board.activity.BoardActivity;
 import com.bilue.board.util.BitmapUtil;
 
 import java.io.DataInputStream;
@@ -16,13 +16,13 @@ import java.net.Socket;
  * 接收任务， 将接收的数据解析成bitmap 然后更新
  */
 
-public class ReceiveTask implements Runnable {
+public class TaskReceive implements Runnable {
     private Socket socket;
-    private Board.ReceiveHandler receiveHandler;
+    private BoardActivity.ReceiveHandler receiveHandler;
     private boolean scaning = false;
     private InputStream is = null;
     private DataInputStream dis = null;
-    public ReceiveTask(Socket socket,Board.ReceiveHandler receiveHandler){
+    public TaskReceive(Socket socket, BoardActivity.ReceiveHandler receiveHandler){
         this.socket = socket;
         this.receiveHandler = receiveHandler;
         if (socket!=null && receiveHandler!=null){
@@ -38,7 +38,7 @@ public class ReceiveTask implements Runnable {
 
                 Bitmap bitmap = getBaseBitmap(socket);
                 Message msg = new Message();
-                msg.what = Board.ReceiveHandler.UPDATE_VIEW;
+                msg.what = BoardActivity.ReceiveHandler.UPDATE_VIEW;
                 msg.obj = bitmap;
                 receiveHandler.sendMessage(msg);
             }

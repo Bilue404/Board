@@ -18,7 +18,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.bilue.board.R;
 import com.bilue.board.adapter.MyHistoryAdapter;
-import com.bilue.board.util.History;
+import com.bilue.board.bean.History;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -150,7 +150,7 @@ public class NewHistoryListActivity extends BaseActivity {
 
 
     private void startHistory(History history){
-        Intent creatIntent = new Intent(NewHistoryListActivity.this, CreatRoom.class);
+        Intent creatIntent = new Intent(NewHistoryListActivity.this, CreatRoomActivity.class);
         creatIntent.putExtra("path",history.getPath());
         startActivity(creatIntent);
     }
